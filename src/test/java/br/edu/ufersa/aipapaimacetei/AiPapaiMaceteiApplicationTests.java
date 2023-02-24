@@ -1,10 +1,10 @@
-package br.edu.ufersa.syscholar;
+package br.edu.ufersa.aipapaimacetei;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SyscholarApplicationTests {
+class AiPapaiMaceteiApplicationTests {
 
 	@Test
 	void contextLoads() {

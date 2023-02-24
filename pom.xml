@@ -9,17 +9,23 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.edu.ufersa</groupId>
-	<artifactId>syscholar</artifactId>
+	<artifactId>ai-papai-macetei</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>syscholar</name>
-	<description>Projeto para a disciplina de Programação Web</description>
+	<name>ai-papai-macetei</name>
+	<description>projeto criado para exemplificar a utilização do Spring Boot</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<dependency>
+  			<groupId>org.modelmapper</groupId>
+  				<artifactId>modelmapper</artifactId>
+  				<version>3.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -35,11 +41,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
+			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
