@@ -42,7 +42,6 @@ public class Disciplina {
     @NonNull
     private Integer sala;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "aluno_disciplina",
