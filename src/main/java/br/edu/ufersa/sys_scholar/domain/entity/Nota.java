@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +36,10 @@ public class Nota {
     private Double exame_final;
     private Double media_final;
 
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "aluno_id", referencedColumnName = "id")
+    Aluno aluno;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "disciplina_id", referencedColumnName = "id")    
