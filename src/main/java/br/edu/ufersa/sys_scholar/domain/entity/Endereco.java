@@ -1,6 +1,5 @@
 package br.edu.ufersa.sys_scholar.domain.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,9 +8,8 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
-
-
 
 @Entity
 @Table
@@ -23,13 +21,13 @@ public class Endereco {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @NonNull
     private Long id;
-    @Column(nullable = false)
+    @NonNull
     private String cidade;
-    @Column(nullable = false)
+    @NonNull
     private String bairro;
-    @Column(nullable = false)
+    @NonNull
     private Integer numero;
     
 }

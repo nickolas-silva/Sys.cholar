@@ -28,13 +28,13 @@ public class Nota {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    private Double nota_01;
-    private Double nota_02;
-    private Double nota_03;
-    private Double nota_04;
+    private Double nota01;
+    private Double nota02;
+    private Double nota03;
+    private Double nota04;
     private Double media;
-    private Double exame_final;
-    private Double media_final;
+    private Double exameFinal;
+    private Double mediaFinal;
 
     @JsonIgnore
     @ManyToOne(optional = false)

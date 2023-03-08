@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 
@@ -38,7 +39,7 @@ public class Aluno {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false)
+    @NonNull
     private Integer codigo;
     
     private String nome;
@@ -51,21 +52,20 @@ public class Aluno {
     
     private String senha;
 
-    @OneToOne(optional = false,cascade = CascadeType.ALL)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
 
-    
-    @OneToMany(mappedBy = "aluno")
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
     List<Nota> notas;
 
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-        name = "aluno_disciplina",
-        joinColumns = @JoinColumn(name = "aluno_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "disciplina_id", referencedColumnName = "id")
-    )
-    private Set<Disciplina> disciplinas;
+    // @JsonIgnore
+    // @ManyToMany
+    // @JoinTable(
+    //     name = "aluno_disciplina",
+    //     joinColumns = @JoinColumn(name = "aluno_id", referencedColumnName = "id"),
+    //     inverseJoinColumns = @JoinColumn(name = "disciplina_id", referencedColumnName = "id")
+    // )
+    // private Set<Disciplina> disciplinas;
 
 }

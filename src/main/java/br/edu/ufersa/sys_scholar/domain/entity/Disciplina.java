@@ -42,12 +42,12 @@ public class Disciplina {
     @NonNull
     private Integer sala;
 
-    @ManyToMany
-    @JoinTable(
-        name = "aluno_disciplina",
-        joinColumns = @JoinColumn(name = "disciplina_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "aluno_id", referencedColumnName = "id")
-    )
-    private Set<Aluno> alunos;
+    // @ManyToMany
+    // @JoinTable(
+    //     name = "aluno_disciplina",
+    //     joinColumns = @JoinColumn(name = "disciplina_id", referencedColumnName = "id"),
+    //     inverseJoinColumns = @JoinColumn(name = "aluno_id", referencedColumnName = "id")
+    // )
+    // private Set<Aluno> alunos;
         
 }
