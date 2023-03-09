@@ -19,25 +19,12 @@ public abstract class AbstractAlunoDTO implements InterfaceDTO<Aluno> {
 
     protected String nome;
 
-    @JsonIgnore
-    protected Integer cpf;
-
-    @JsonIgnore
-    protected String usuario;
-
-    @JsonIgnore
-    protected String senha;
-
-    protected EnderecoDTO endereco;
-
     @Override
     public Aluno convert() {
         Aluno aluno = new Aluno();
         aluno.setId(this.id);
         aluno.setCodigo(this.codigo);
         aluno.setNome(this.nome);
-        aluno.setCpf(this.cpf);
-        aluno.setEndereco(endereco.convert());
         aluno.setNotas(new ArrayList<>());
         return aluno;
     }
@@ -47,11 +34,6 @@ public abstract class AbstractAlunoDTO implements InterfaceDTO<Aluno> {
         this.id = aluno.getId();
         this.codigo = aluno.getCodigo();
         this.nome = aluno.getNome();
-        this.cpf = aluno.getCpf();
-
-        EnderecoDTO enderecoDTO = new EnderecoDTO();
-        enderecoDTO.setData(aluno.getEndereco());
-        this.endereco = enderecoDTO;
     }
 
 }
