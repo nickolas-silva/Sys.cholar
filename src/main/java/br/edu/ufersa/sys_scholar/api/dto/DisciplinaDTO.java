@@ -2,51 +2,33 @@ package br.edu.ufersa.sys_scholar.api.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import br.edu.ufersa.sys_scholar.domain.entity.Disciplina;
 import br.edu.ufersa.sys_scholar.domain.entity.Nota;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.AccessLevel;
 
 @Getter
 @Setter
-public class DisciplinaDTO implements InterfaceDTO<Disciplina> {
+public class DisciplinaDTO extends AbstractDisciplinaDTO {
 
-    @Setter(AccessLevel.NONE)
-    private Long id;
-    private String nome;
-    private String turno;
-    private Integer horario;
-    private Integer sala;
-    private List<NotaDTO> notas;
+    private List<NotaDisciplinaDTO> notas;
 
-    private List<NotaDTO> convertToNotasDTO(List<Nota> notas) {
-        List<NotaDTO> listNotaDTOs = new ArrayList<>();
+    private List<NotaDisciplinaDTO> convertToNotaDisciplinaDTOs(List<Nota> notas) {
+        List<NotaDisciplinaDTO> notaDisciplinaDTOs = new ArrayList<>();
+
         for (Nota nota : notas) {
-            NotaDTO notaDTO = new NotaDTO();
-            notaDTO.getData(nota);
-            listNotaDTOs.add(notaDTO);
+            NotaDisciplinaDTO notaDisciplinaDTO = new NotaDisciplinaDTO();
+            notaDisciplinaDTO.setData(nota);
+            notaDisciplinaDTOs.add(notaDisciplinaDTO);
         }
-        return listNotaDTOs;
+
+        return notaDisciplinaDTOs;
     }
 
-    public void getData(Disciplina disciplina) {
-        this.id = disciplina.getId();
-        this.nome = disciplina.getNome();
-        this.turno = disciplina.getTurno();
-        this.horario = disciplina.getHorario();
-        this.sala = disciplina.getSala();
-        this.notas = convertToNotasDTO(disciplina.getNotas());
+    public void setData(Disciplina disciplina) {
+        super.setData(disciplina);
+        this.notas = convertToNotaDisciplinaDTOs(disciplina.getNotas());
     }
 
-    public Disciplina convert() {
-        Disciplina disciplina = new Disciplina();
-
-        disciplina.setId(id);
-        disciplina.setNome(nome);
-        disciplina.setTurno(turno);
-        disciplina.setHorario(horario);
-        disciplina.setSala(sala);
-        return disciplina;
-    }
 }

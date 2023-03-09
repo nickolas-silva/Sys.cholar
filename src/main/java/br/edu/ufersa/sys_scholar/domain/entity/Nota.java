@@ -32,12 +32,12 @@ public class Nota {
     private Double exameFinal;
     private Double mediaFinal;
 
-    // @JsonIgnore
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "aluno_id", referencedColumnName = "id")
     Aluno aluno;
 
-    // @JsonIgnore
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "disciplina_id", referencedColumnName = "id")
     private Disciplina disciplina;

@@ -1,54 +1,32 @@
 package br.edu.ufersa.sys_scholar.api.dto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
+import br.edu.ufersa.sys_scholar.domain.entity.Nota;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.AccessLevel;
-
 
 @Getter
 @Setter
-public class AlunoDTO implements InterfaceDTO<Aluno>{
-    
-    @Setter(AccessLevel.NONE)
-    private Long id;
-    
-    private Integer codigo;
-    
-    private String nome;
+public class AlunoDTO extends AbstractAlunoDTO {
+    private List<NotaAlunoDTO> notas;
 
-    @JsonIgnore
-    private Integer cpf;
-    
-    @JsonIgnore
-    private String usuario;
-    
-    @JsonIgnore
-    private String senha;
+    private List<NotaAlunoDTO> convertToNotaDTOs(List<Nota> notas) {
+        List<NotaAlunoDTO> lisNotaDTOs = new ArrayList<>();
 
-    @JsonIgnore
-    private EnderecoDTO endereco;
-   
-    @Override
-    public Aluno convert() {
-        Aluno aluno = new Aluno();
-        aluno.setId(this.id);
-        aluno.setCodigo(this.codigo);
-        aluno.setNome(this.nome);
-        aluno.setCpf(this.cpf);
+        for (Nota nota : notas) {
+            NotaAlunoDTO notaDTO = new NotaAlunoDTO();
+            notaDTO.setData(nota);
+            lisNotaDTOs.add(notaDTO);
+        }
 
-        return aluno;
+        return lisNotaDTOs;
     }
 
-    @Override
-    public void getData(Aluno aluno) {
-        this.id = aluno.getId();
-        this.codigo = aluno.getCodigo();
-        this.nome = aluno.getNome();
-        this.cpf = aluno.getCpf();
-        EnderecoDTO enderecoDTO = new EnderecoDTO();
-        enderecoDTO.getData(aluno.getEndereco());
-        this.endereco = enderecoDTO;
+    public void setData(Aluno aluno) {
+        super.setData(aluno);
+        this.notas = convertToNotaDTOs(aluno.getNotas());
     }
-
 }

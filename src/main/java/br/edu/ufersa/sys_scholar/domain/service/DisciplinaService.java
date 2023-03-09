@@ -9,7 +9,7 @@ import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.DisciplinaRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.NotaRepository;
 import br.edu.ufersa.sys_scholar.api.dto.DisciplinaDTO;
-import br.edu.ufersa.sys_scholar.api.dto.NotaDTO;
+import br.edu.ufersa.sys_scholar.api.dto.NotaDisciplinaDTO;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.entity.Disciplina;
 import br.edu.ufersa.sys_scholar.domain.entity.Nota;
@@ -25,7 +25,7 @@ public class DisciplinaService {
 
     private DisciplinaDTO convertToDisciplinaDTO(Disciplina disciplina) {
         DisciplinaDTO disciplinaDTO = new DisciplinaDTO();
-        disciplinaDTO.getData(disciplina);
+        disciplinaDTO.setData(disciplina);
         return disciplinaDTO;
     }
 
@@ -33,7 +33,7 @@ public class DisciplinaService {
         List<Nota> listNotas = new ArrayList<>();
         Disciplina disciplina = disciplinaDTO.convert();
         disciplina.setNotas(null);
-        for (NotaDTO notaDTO : disciplinaDTO.getNotas()) {
+        for (NotaDisciplinaDTO notaDTO : disciplinaDTO.getNotas()) {
             Nota nota = notaDTO.convert();
             nota.setDisciplina(disciplina);
             listNotas.add(nota);
@@ -67,7 +67,7 @@ public class DisciplinaService {
         Disciplina disciplina = disciplinaRepository.save(disciplinaDTO.convert());
 
         DisciplinaDTO disciplinaDTOSaved = new DisciplinaDTO();
-        disciplinaDTOSaved.getData(disciplina);
+        disciplinaDTOSaved.setData(disciplina);
 
         return disciplinaDTOSaved;
     }

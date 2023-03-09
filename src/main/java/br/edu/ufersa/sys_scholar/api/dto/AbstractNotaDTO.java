@@ -7,18 +7,17 @@ import lombok.AccessLevel;
 
 @Getter
 @Setter
-public class NotaDTO implements InterfaceDTO<Nota> {
+public abstract class AbstractNotaDTO implements InterfaceDTO<Nota> {
 
     @Setter(AccessLevel.NONE)
-    private Long id;
-    private Double nota01;
-    private Double nota02;
-    private Double nota03;
-    private Double nota04;
-    private Double media;
-    private Double exameFinal;
-    private Double mediaFinal;
-    private AlunoDTO aluno;
+    protected Long id;
+    protected Double nota01;
+    protected Double nota02;
+    protected Double nota03;
+    protected Double nota04;
+    protected Double media;
+    protected Double exameFinal;
+    protected Double mediaFinal;
 
     @Override
     public Nota convert() {
@@ -32,15 +31,19 @@ public class NotaDTO implements InterfaceDTO<Nota> {
         nota.setExameFinal(exameFinal);
         nota.setMediaFinal(mediaFinal);
 
-        if (aluno != null) {
-            nota.setAluno(aluno.convert());
-        }
+        // if (disciplina != null) {
+        // nota.setDisciplina(disciplina.convert());
+        // }
+
+        // if (aluno != null) {
+        // nota.setAluno(aluno.convert());
+        // }
 
         return nota;
     }
 
     @Override
-    public void getData(Nota nota) {
+    public void setData(Nota nota) {
         this.id = nota.getId();
         this.nota01 = nota.getNota01();
         this.nota02 = nota.getNota02();
@@ -49,9 +52,15 @@ public class NotaDTO implements InterfaceDTO<Nota> {
         this.media = nota.getMedia();
         this.exameFinal = nota.getExameFinal();
         this.mediaFinal = nota.getMediaFinal();
-        AlunoDTO alunoDTO = new AlunoDTO();
-        alunoDTO.getData(nota.getAluno());
-        this.aluno = alunoDTO;
+
+        // DisciplinaDTO disciplinaDTO = new DisciplinaDTO();
+        // disciplinaDTO.getData(nota.getDisciplina());
+        // this.disciplina = disciplinaDTO;
+
+        // AlunoDTO alunoDTO = new AlunoDTO();
+        // alunoDTO.getData(nota.getAluno());
+        // this.aluno = alunoDTO;
+
     }
 
 }

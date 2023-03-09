@@ -7,8 +7,8 @@ import lombok.AccessLevel;
 
 @Getter
 @Setter
-public class EnderecoDTO implements InterfaceDTO<Endereco>{
-    
+public class EnderecoDTO implements InterfaceDTO<Endereco> {
+
     @Setter(AccessLevel.NONE)
     private Long id;
     private String cidade;
@@ -19,7 +19,8 @@ public class EnderecoDTO implements InterfaceDTO<Endereco>{
     public Endereco convert() {
         Endereco endereco = new Endereco();
         endereco.setId(id);
-        endereco.setCidade(cidade);;
+        endereco.setCidade(cidade);
+        ;
         endereco.setBairro(bairro);
         endereco.setNumero(numero);
 
@@ -27,7 +28,7 @@ public class EnderecoDTO implements InterfaceDTO<Endereco>{
     }
 
     @Override
-    public void getData(Endereco endereco) {
+    public void setData(Endereco endereco) {
         this.id = endereco.getId();
         this.cidade = endereco.getCidade();
         this.bairro = endereco.getBairro();
