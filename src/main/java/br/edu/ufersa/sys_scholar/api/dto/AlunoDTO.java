@@ -1,36 +1,34 @@
 package br.edu.ufersa.sys_scholar.api.dto;
-import java.io.Serializable;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
-import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
-import br.edu.ufersa.sys_scholar.domain.entity.Nota;
-import ch.qos.logback.core.joran.action.NewRuleAction;
 import lombok.Getter;
 import lombok.Setter;
-
+import lombok.AccessLevel;
 
 
 @Getter
 @Setter
 public class AlunoDTO implements InterfaceDTO<Aluno>{
     
+    @Setter(AccessLevel.NONE)
     private Long id;
     
     private Integer codigo;
     
     private String nome;
 
+    @JsonIgnore
     private Integer cpf;
     
+    @JsonIgnore
     private String usuario;
     
+    @JsonIgnore
     private String senha;
 
+    @JsonIgnore
     private EnderecoDTO endereco;
-
-    private List<Nota> notas;
-
+   
     @Override
     public Aluno convert() {
         Aluno aluno = new Aluno();

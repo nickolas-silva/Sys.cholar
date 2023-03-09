@@ -21,7 +21,6 @@ public class Endereco {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @NonNull
     private Long id;
     @NonNull
     private String cidade;
