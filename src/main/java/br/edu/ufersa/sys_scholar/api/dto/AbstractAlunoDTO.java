@@ -12,7 +12,6 @@ import lombok.AccessLevel;
 @Setter
 public abstract class AbstractAlunoDTO implements InterfaceDTO<Aluno> {
 
-    @Setter(AccessLevel.NONE)
     protected Long id;
 
     protected Integer codigo;

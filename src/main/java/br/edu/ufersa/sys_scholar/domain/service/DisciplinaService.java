@@ -13,6 +13,8 @@ import br.edu.ufersa.sys_scholar.domain.repository.DisciplinaRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.NotaRepository;
 import br.edu.ufersa.sys_scholar.api.dto.DisciplinaDTO;
 import br.edu.ufersa.sys_scholar.api.dto.NotaDisciplinaDTO;
+import br.edu.ufersa.sys_scholar.api.mappers.DisciplinaMapper;
+import br.edu.ufersa.sys_scholar.api.mappers.NotaMapper;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.entity.Disciplina;
 import br.edu.ufersa.sys_scholar.domain.entity.Nota;
@@ -94,22 +96,13 @@ public class DisciplinaService {
     }
 
     public DisciplinaDTO updateDisciplina(DisciplinaDTO disciplinaDTO) {
-        // Customer myCustomer = repo.findById(dto.id);
-        // mapper.updateCustomerFromDto(dto, myCustomer);
 
-        if (disciplinaDTO.getId() != null) {
-            // gerar execessão
-        }
+        Disciplina disciplina = disciplinaRepository.findById(disciplinaDTO.getId()).get();
+        DisciplinaMapper.INSTANCE.updateDisciplinaFromDisciplinaDTO(disciplinaDTO, disciplina);
+        disciplina.setNotas(null);
+        Disciplina disciplinaUpdated = disciplinaRepository.save(disciplina);
+        DisciplinaDTO disciplinaDTOUpdated = DisciplinaMapper.INSTANCE.DisciplinaToDisciplinaDTO(disciplinaUpdated);
 
-        disciplinaRepository.save(disciplinaDTO.convert());
-
-        if (disciplinaDTO.getNotas() == null) {
-            return disciplinaDTO;
-        }
-
-        List<Nota> listNotas = convertToNota(disciplinaDTO);
-        notaRepository.saveAll(listNotas);
-
-        return disciplinaDTO;
+        return disciplinaDTOUpdated;
     }
 }

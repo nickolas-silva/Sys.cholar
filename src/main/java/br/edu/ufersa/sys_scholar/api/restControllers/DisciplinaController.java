@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufersa.sys_scholar.api.dto.DisciplinaDTO;
+import br.edu.ufersa.sys_scholar.api.dto.NotaDisciplinaDTO;
+import br.edu.ufersa.sys_scholar.domain.entity.Disciplina;
 import br.edu.ufersa.sys_scholar.domain.service.DisciplinaService;
 import lombok.AllArgsConstructor;
 
