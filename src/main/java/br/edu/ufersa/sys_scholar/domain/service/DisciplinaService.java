@@ -96,9 +96,13 @@ public class DisciplinaService {
             // gerar execessão
         }
 
-        List<Nota> listNotas = convertToNota(disciplinaDTO);
-
         disciplinaRepository.save(disciplinaDTO.convert());
+
+        if (disciplinaDTO.getNotas() == null) {
+            return disciplinaDTO;
+        }
+
+        List<Nota> listNotas = convertToNota(disciplinaDTO);
         notaRepository.saveAll(listNotas);
 
         return disciplinaDTO;
