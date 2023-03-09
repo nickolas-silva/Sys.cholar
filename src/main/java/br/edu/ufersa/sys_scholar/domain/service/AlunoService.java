@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
+import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapper;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.NotaRepository;
@@ -62,11 +66,13 @@ public class AlunoService {
     }
 
     public AlunoDTO updateAluno(AlunoDTO alunoDTO) {
-        Aluno aluno = alunoRepository.save(alunoDTO.convert());
 
-        AlunoDTO updatedAlunoDTO = new AlunoDTO();
-        updatedAlunoDTO.setData(aluno);
+        Aluno aluno = alunoRepository.findById(alunoDTO.getId()).get();
 
-        return updatedAlunoDTO;
+        AlunoMapper.INSTANCE.updateAlunoFromAlunoDTO(alunoDTO, aluno);
+
+        alunoRepository.save(aluno);
+
+        return AlunoMapper.INSTANCE.AlunoToAlunoDTO(aluno);
     }
 }

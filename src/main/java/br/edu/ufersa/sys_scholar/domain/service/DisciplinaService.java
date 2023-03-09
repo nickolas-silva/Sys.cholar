@@ -3,7 +3,10 @@ package br.edu.ufersa.sys_scholar.domain.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.DisciplinaRepository;
@@ -91,6 +94,8 @@ public class DisciplinaService {
     }
 
     public DisciplinaDTO updateDisciplina(DisciplinaDTO disciplinaDTO) {
+        // Customer myCustomer = repo.findById(dto.id);
+        // mapper.updateCustomerFromDto(dto, myCustomer);
 
         if (disciplinaDTO.getId() != null) {
             // gerar execessão
