@@ -31,13 +31,13 @@ public class ProfessorDTO implements InterfaceDTO<Professor>{
   }
 
   @Override
-  public void getData(Professor professor) {
+  public void setData(Professor professor) {
     this.id = professor.getId();
     this.codigo = professor.getCodigo();
     this.nome = professor.getNome();
     this.cpf = professor.getCpf();
     EnderecoDTO enderecoDTO = new EnderecoDTO();
-    enderecoDTO.getData(professor.getEndereco());
+    enderecoDTO.setData(professor.getEndereco());
     this.endereco = enderecoDTO;
   }
   
