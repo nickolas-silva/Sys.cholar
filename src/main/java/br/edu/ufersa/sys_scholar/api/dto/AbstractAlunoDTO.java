@@ -1,5 +1,7 @@
 package br.edu.ufersa.sys_scholar.api.dto;
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import lombok.Getter;
@@ -26,7 +28,6 @@ public abstract class AbstractAlunoDTO implements InterfaceDTO<Aluno> {
     @JsonIgnore
     protected String senha;
 
-    @JsonIgnore
     protected EnderecoDTO endereco;
 
     @Override
@@ -36,7 +37,8 @@ public abstract class AbstractAlunoDTO implements InterfaceDTO<Aluno> {
         aluno.setCodigo(this.codigo);
         aluno.setNome(this.nome);
         aluno.setCpf(this.cpf);
-
+        aluno.setEndereco(endereco.convert());
+        aluno.setNotas(new ArrayList<>());
         return aluno;
     }
 
