@@ -9,7 +9,7 @@ import lombok.AccessLevel;
 @Setter
 public abstract class AbstractDisciplinaDTO implements InterfaceDTO<Disciplina> {
 
-    @Setter(AccessLevel.NONE)
+    // @Setter(AccessLevel.NONE)
     protected Long id;
     protected String nome;
     protected String turno;

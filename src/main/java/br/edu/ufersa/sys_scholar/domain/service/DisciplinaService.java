@@ -3,13 +3,18 @@ package br.edu.ufersa.sys_scholar.domain.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.DisciplinaRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.NotaRepository;
 import br.edu.ufersa.sys_scholar.api.dto.DisciplinaDTO;
 import br.edu.ufersa.sys_scholar.api.dto.NotaDisciplinaDTO;
+import br.edu.ufersa.sys_scholar.api.mappers.DisciplinaMapper;
+import br.edu.ufersa.sys_scholar.api.mappers.NotaMapper;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.entity.Disciplina;
 import br.edu.ufersa.sys_scholar.domain.entity.Nota;
@@ -31,10 +36,10 @@ public class DisciplinaService {
 
     private List<Nota> convertToNota(DisciplinaDTO disciplinaDTO) {
         List<Nota> listNotas = new ArrayList<>();
-        Disciplina disciplina = disciplinaDTO.convert();
+        Disciplina disciplina = DisciplinaMapper.INSTANCE.DisciplinaDTOToDisciplina(disciplinaDTO);
         disciplina.setNotas(null);
-        for (NotaDisciplinaDTO notaDTO : disciplinaDTO.getNotas()) {
-            Nota nota = notaDTO.convert();
+        for (NotaDisciplinaDTO notaDisciplinaDTO : disciplinaDTO.getNotas()) {
+            Nota nota = NotaMapper.INSTANCE.NotaDisciplinaDTOToNota(notaDisciplinaDTO);
             nota.setDisciplina(disciplina);
             listNotas.add(nota);
         }
@@ -92,19 +97,33 @@ public class DisciplinaService {
 
     public DisciplinaDTO updateDisciplina(DisciplinaDTO disciplinaDTO) {
 
-        if (disciplinaDTO.getId() != null) {
-            // gerar execessão
+        Disciplina disciplina = disciplinaRepository.findById(disciplinaDTO.getId()).get();
+        DisciplinaMapper.INSTANCE.updateDisciplinaFromDisciplinaDTO(disciplinaDTO, disciplina);
+        disciplina.setNotas(null);
+        Disciplina disciplinaUpdated = disciplinaRepository.save(disciplina);
+        DisciplinaDTO disciplinaDTOUpdated = DisciplinaMapper.INSTANCE.DisciplinaToDisciplinaDTO(disciplinaUpdated);
+
+        return disciplinaDTOUpdated;
+    }
+
+    public void updateNotasDisciplina(DisciplinaDTO disciplinaDTO) {
+        List<Nota> notasNew = convertToNota(disciplinaDTO);
+        List<Nota> notasOld = notaRepository.findAllByDisciplinaId(disciplinaDTO.getId());
+
+        List<Nota> notasUpdated = new ArrayList<>();
+
+        for (Nota notaNew : notasNew) {
+            for (Nota notaOld : notasOld) {
+                if (notaNew.getId() == notaOld.getId()) {
+                    NotaMapper.INSTANCE.updateNotaFromNota(notaNew, notaOld);
+                    notasUpdated.add(notaOld);
+                    break;
+                }
+            }
         }
 
-        disciplinaRepository.save(disciplinaDTO.convert());
+        notaRepository.saveAll(notasUpdated);
 
-        if (disciplinaDTO.getNotas() == null) {
-            return disciplinaDTO;
-        }
-
-        List<Nota> listNotas = convertToNota(disciplinaDTO);
-        notaRepository.saveAll(listNotas);
-
-        return disciplinaDTO;
+        // return (List<Nota>) notaRepository.saveAll(notasUpdated);
     }
 }

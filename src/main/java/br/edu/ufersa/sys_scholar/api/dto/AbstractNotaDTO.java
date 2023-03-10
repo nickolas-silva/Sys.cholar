@@ -9,7 +9,6 @@ import lombok.AccessLevel;
 @Setter
 public abstract class AbstractNotaDTO implements InterfaceDTO<Nota> {
 
-    @Setter(AccessLevel.NONE)
     protected Long id;
     protected Double nota01;
     protected Double nota02;

@@ -9,7 +9,6 @@ import lombok.AccessLevel;
 @Setter
 public class EnderecoDTO implements InterfaceDTO<Endereco> {
 
-    @Setter(AccessLevel.NONE)
     private Long id;
     private String cidade;
     private String bairro;
