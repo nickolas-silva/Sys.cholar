@@ -6,10 +6,6 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-
-
-
 public interface NotaRepository extends CrudRepository<Nota, Long> {
-    public List<Nota> findByDisciplinaId(Long disciplinaId);
+    public List<Nota> findAllByDisciplinaId(Long disciplinaId);
 }
-

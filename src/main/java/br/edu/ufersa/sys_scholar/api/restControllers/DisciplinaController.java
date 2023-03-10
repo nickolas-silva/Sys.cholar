@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufersa.sys_scholar.api.dto.DisciplinaDTO;
 import br.edu.ufersa.sys_scholar.api.dto.NotaDisciplinaDTO;
 import br.edu.ufersa.sys_scholar.domain.entity.Disciplina;
+import br.edu.ufersa.sys_scholar.domain.entity.Nota;
 import br.edu.ufersa.sys_scholar.domain.service.DisciplinaService;
 import lombok.AllArgsConstructor;
 
@@ -53,9 +54,15 @@ public class DisciplinaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/nota")
+    @PatchMapping
     public ResponseEntity<DisciplinaDTO> updateDisciplina(@RequestBody DisciplinaDTO disciplinaDTO) {
         return new ResponseEntity<>(disciplinaService.updateDisciplina(disciplinaDTO), HttpStatus.OK);
+    }
+
+    @PatchMapping("/nota")
+    public ResponseEntity<HttpStatus> updateNotasDisciplina(@RequestBody DisciplinaDTO disciplinaDTO) {
+        disciplinaService.updateNotasDisciplina(disciplinaDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

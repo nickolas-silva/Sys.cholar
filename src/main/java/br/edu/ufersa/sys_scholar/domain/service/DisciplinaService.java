@@ -36,10 +36,10 @@ public class DisciplinaService {
 
     private List<Nota> convertToNota(DisciplinaDTO disciplinaDTO) {
         List<Nota> listNotas = new ArrayList<>();
-        Disciplina disciplina = disciplinaDTO.convert();
+        Disciplina disciplina = DisciplinaMapper.INSTANCE.DisciplinaDTOToDisciplina(disciplinaDTO);
         disciplina.setNotas(null);
-        for (NotaDisciplinaDTO notaDTO : disciplinaDTO.getNotas()) {
-            Nota nota = notaDTO.convert();
+        for (NotaDisciplinaDTO notaDisciplinaDTO : disciplinaDTO.getNotas()) {
+            Nota nota = NotaMapper.INSTANCE.NotaDisciplinaDTOToNota(notaDisciplinaDTO);
             nota.setDisciplina(disciplina);
             listNotas.add(nota);
         }
@@ -104,5 +104,26 @@ public class DisciplinaService {
         DisciplinaDTO disciplinaDTOUpdated = DisciplinaMapper.INSTANCE.DisciplinaToDisciplinaDTO(disciplinaUpdated);
 
         return disciplinaDTOUpdated;
+    }
+
+    public void updateNotasDisciplina(DisciplinaDTO disciplinaDTO) {
+        List<Nota> notasNew = convertToNota(disciplinaDTO);
+        List<Nota> notasOld = notaRepository.findAllByDisciplinaId(disciplinaDTO.getId());
+
+        List<Nota> notasUpdated = new ArrayList<>();
+
+        for (Nota notaNew : notasNew) {
+            for (Nota notaOld : notasOld) {
+                if (notaNew.getId() == notaOld.getId()) {
+                    NotaMapper.INSTANCE.updateNotaFromNota(notaNew, notaOld);
+                    notasUpdated.add(notaOld);
+                    break;
+                }
+            }
+        }
+
+        notaRepository.saveAll(notasUpdated);
+
+        // return (List<Nota>) notaRepository.saveAll(notasUpdated);
     }
 }
