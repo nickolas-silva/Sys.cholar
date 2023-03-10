@@ -28,7 +28,9 @@ public class DisciplinaDTO extends AbstractDisciplinaDTO {
 
     public void setData(Disciplina disciplina) {
         super.setData(disciplina);
-        this.notas = convertToNotaDisciplinaDTOs(disciplina.getNotas());
+        if (disciplina.getNotas() != null) {
+            this.notas = convertToNotaDisciplinaDTOs(disciplina.getNotas());
+        }
     }
 
 }

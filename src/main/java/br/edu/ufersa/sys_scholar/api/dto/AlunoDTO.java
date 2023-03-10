@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
+import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
 import br.edu.ufersa.sys_scholar.domain.entity.Nota;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +40,10 @@ public class AlunoDTO extends AbstractAlunoDTO {
         aluno.setCpf(this.cpf);
         aluno.setSenha(senha);
         aluno.setUsuario(usuario);
-        aluno.setEndereco(endereco.convert());
+        aluno.setEndereco(new Endereco());
+        if (endereco != null) {
+            aluno.setEndereco(endereco.convert());
+        }
         return aluno;
     }
 
@@ -49,8 +53,11 @@ public class AlunoDTO extends AbstractAlunoDTO {
         this.cpf = aluno.getCpf();
         this.usuario = aluno.getUsuario();
         // this.senha = aluno.getSenha();
-        EnderecoDTO enderecoDTO = new EnderecoDTO();
-        enderecoDTO.setData(aluno.getEndereco());
-        this.endereco = enderecoDTO;
+        if (aluno.getEndereco() != null) {
+            EnderecoDTO enderecoDTO = new EnderecoDTO();
+            enderecoDTO.setData(aluno.getEndereco());
+            this.endereco = enderecoDTO;
+        }
+
     }
 }
