@@ -1,56 +1,63 @@
 package br.edu.ufersa.sys_scholar.api.dto;
-import java.io.Serializable;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
 import br.edu.ufersa.sys_scholar.domain.entity.Nota;
-import ch.qos.logback.core.joran.action.NewRuleAction;
 import lombok.Getter;
 import lombok.Setter;
 
-
-
 @Getter
 @Setter
-public class AlunoDTO implements InterfaceDTO<Aluno>{
-    
-    private Long id;
-    
-    private Integer codigo;
-    
-    private String nome;
+public class AlunoDTO extends AbstractAlunoDTO {
 
-    private Integer cpf;
-    
-    private String usuario;
-    
-    private String senha;
+    protected Integer cpf;
+    protected String usuario;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    protected String senha;
+    protected EnderecoDTO endereco;
+    private List<NotaAlunoDTO> notas;
 
-    private EnderecoDTO endereco;
+    private List<NotaAlunoDTO> convertToNotaDTOs(List<Nota> notas) {
+        List<NotaAlunoDTO> lisNotaDTOs = new ArrayList<>();
 
-    private List<Nota> notas;
+        for (Nota nota : notas) {
+            NotaAlunoDTO notaDTO = new NotaAlunoDTO();
+            notaDTO.setData(nota);
+            lisNotaDTOs.add(notaDTO);
+        }
 
-    @Override
+        return lisNotaDTOs;
+    }
+
     public Aluno convert() {
-        Aluno aluno = new Aluno();
-        aluno.setId(this.id);
-        aluno.setCodigo(this.codigo);
-        aluno.setNome(this.nome);
+        Aluno aluno = super.convert();
         aluno.setCpf(this.cpf);
-
+        aluno.setSenha(senha);
+        aluno.setUsuario(usuario);
+        aluno.setEndereco(new Endereco());
+        if (endereco != null) {
+            aluno.setEndereco(endereco.convert());
+        }
         return aluno;
     }
 
-    @Override
-    public void getData(Aluno aluno) {
-        this.id = aluno.getId();
-        this.codigo = aluno.getCodigo();
-        this.nome = aluno.getNome();
+    public void setData(Aluno aluno) {
+        super.setData(aluno);
+        this.notas = convertToNotaDTOs(aluno.getNotas());
         this.cpf = aluno.getCpf();
-        EnderecoDTO enderecoDTO = new EnderecoDTO();
-        enderecoDTO.getData(aluno.getEndereco());
-        this.endereco = enderecoDTO;
-    }
+        this.usuario = aluno.getUsuario();
+        // this.senha = aluno.getSenha();
+        if (aluno.getEndereco() != null) {
+            EnderecoDTO enderecoDTO = new EnderecoDTO();
+            enderecoDTO.setData(aluno.getEndereco());
+            this.endereco = enderecoDTO;
+        }
 
+    }
 }
