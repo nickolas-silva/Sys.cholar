@@ -17,16 +17,26 @@ import br.edu.ufersa.sys_scholar.domain.entity.Professor;
 public interface ProfessorMapper {
   ProfessorMapper INSTANCE = Mappers.getMapper(ProfessorMapper.class);
 
+  
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
-  @Mapping(target = "notas", ignore = true)
-  ProfessorDTO ProfessorToAlunoDTO(Professor professor);
-
+  ProfessorDTO ProfessorToprofessorDTO(Professor professor);
+  
+  @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoDTOToEndereco")
+  Professor professorDTOToProfessor(ProfessorDTO professorDTO);
+  
   @Named("enderecoToEnderecoDTO")
   public static EnderecoDTO enderecoToEnderecoDTO(Endereco endereco) {
     EnderecoDTO enderecoDTO = new EnderecoDTO();
     enderecoDTO.setData(endereco);
 
     return enderecoDTO;
+  }
+
+  @Named("enderecoDTOToEndereco")
+  public static Endereco enderecoDTOToEndereco(EnderecoDTO enderecoDTO) {
+    Endereco endereco = enderecoDTO.convert();
+
+    return endereco;
   }
 
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -51,9 +51,9 @@ public class ProfessorService {
 
       ProfessorMapper.INSTANCE.updateProfessorFromProfessorDTO(professorDTO, professor);
 
-      professorRepository.save(professor);
+      Professor professorUpdated = professorRepository.save(professor);
 
-      return ProfessorMapper.INSTANCE.ProfessorToAlunoDTO(professor);
+      return ProfessorMapper.INSTANCE.ProfessorToprofessorDTO(professorUpdated);
   }
 
   public ProfessorDTO getProfessor(Long id){
