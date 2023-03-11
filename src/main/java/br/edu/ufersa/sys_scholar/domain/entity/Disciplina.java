@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -38,6 +40,11 @@ public class Disciplina {
     @JsonIgnore
     @OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL)
     List<Nota> notas;
+
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "professor_id", referencedColumnName = "id")
+    Professor professor;
 
     // @ManyToMany
     // @JoinTable(

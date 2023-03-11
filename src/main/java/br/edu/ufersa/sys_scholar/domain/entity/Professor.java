@@ -10,6 +10,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,12 +40,12 @@ public class Professor {
   @JoinColumn(name = "endereco_id", referencedColumnName = "id")
   private Endereco endereco;
 
+  @JsonIgnore
+  @OneToMany(mappedBy = "professor")
+  List<Disciplina> disciplinas;
+
   // @OneToMany
   // @JoinColumn(name = "nota_id", referencedColumnName = "id")
   // List<Nota> notas;
-
-  @OneToMany
-  @JoinTable(name = "professor_disciplina", joinColumns = @JoinColumn(name = "professor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "disciplina_id", referencedColumnName = "id"))
-  private List<Disciplina> disciplinas;
 
 }
