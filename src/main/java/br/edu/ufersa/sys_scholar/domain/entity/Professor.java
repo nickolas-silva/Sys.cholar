@@ -1,5 +1,6 @@
 package br.edu.ufersa.sys_scholar.domain.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +33,7 @@ public class Professor {
   private String usuario;
   private String senha;
 
-  @OneToOne(optional = false)
+  @OneToOne(optional = false, cascade = CascadeType.ALL)
   @JoinColumn(name = "endereco_id", referencedColumnName = "id")
   private Endereco endereco;
 

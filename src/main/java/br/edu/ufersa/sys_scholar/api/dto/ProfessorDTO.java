@@ -26,7 +26,7 @@ public class ProfessorDTO implements InterfaceDTO<Professor>{
     professor.setCodigo(this.codigo);
     professor.setNome(this.nome);
     professor.setCpf(this.cpf);
-    
+    professor.setEndereco(this.endereco.convert());
     return professor;
   }
 
