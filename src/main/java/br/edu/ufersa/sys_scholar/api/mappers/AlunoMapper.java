@@ -1,7 +1,6 @@
 package br.edu.ufersa.sys_scholar.api.mappers;
 
 import org.mapstruct.BeanMapping;
-import org.mapstruct.Condition;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

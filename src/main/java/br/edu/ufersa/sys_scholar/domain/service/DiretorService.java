@@ -1,70 +1,54 @@
 package br.edu.ufersa.sys_scholar.domain.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
-import br.edu.ufersa.sys_scholar.api.dto.DiretorDTO;
-import br.edu.ufersa.sys_scholar.api.mappers.DiretorMapper;
-import br.edu.ufersa.sys_scholar.domain.entity.Diretor;
-//import br.edu.ufersa.sys_scholar.domain.repository.NotaRepository;
-import br.edu.ufersa.sys_scholar.domain.repository.DiretorRepository;
-import lombok.AllArgsConstructor;
 
+import java.util.List;
+import br.edu.ufersa.sys_scholar.api.dto.DiretorDTO;
+import br.edu.ufersa.sys_scholar.domain.entity.Diretor;
+import br.edu.ufersa.sys_scholar.domain.repository.DiretorRepository;
+import br.edu.ufersa.sys_scholar.api.mappers.DiretorMapper;
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class DiretorService {
+
   DiretorRepository diretorRepository;
-  //NotaRepository notaRepository;
 
-  public List<DiretorDTO> getProfessores(){
-    final List<Diretor> diretores = (List<Diretor>) diretorRepository.findAll();
-    List<DiretorDTO> diretoresDTO = new ArrayList<>();
+  public List<DiretorDTO> getDiretores() {
+    List<Diretor> diretores = (List<Diretor>) diretorRepository.findAll();
 
-    for  (Diretor diretor : diretores){
-        DiretorDTO diretorDTO = new DiretorDTO();
-      diretores.setData(diretor);
-      diretoresDTO.add(diretorDTO);
-    }
-
-    return diretoresDTO;
-
+    return DiretorMapper.INSTANCE.diretoresToDiretorDTOs(diretores);
   }
 
-  public DiretorDTO saveDiretor(DiretorDTO diretorDTO){
-    Diretor diretorzinho = diretorDTO.convert();
-    Diretor newDiretorzinho = diretorRepository.save(diretorzinho);
-    DiretorDTO newDiretorzinhoDTO = new DiretorDTO();
-    newDiretorzinhoDTO.setData(newDiretorzinho);
-    return newDiretorzinhoDTO;
+  public DiretorDTO getDiretor(Long id) {
+    Diretor diretor = diretorRepository.findById(id).get();
 
+    return DiretorMapper.INSTANCE.diretorToDiretorDTO(diretor);
   }
 
-  public void deleteProfessor(Long id){
+  public DiretorDTO saveDiretor(DiretorDTO diretorDTO) {
+
+    Diretor diretor = DiretorMapper.INSTANCE.diretorDTOToDiretor(diretorDTO);
+
+    Diretor newDiretor = diretorRepository.save(diretor);
+
+    return DiretorMapper.INSTANCE.diretorToDiretorDTO(newDiretor);
+  }
+
+  public DiretorDTO updateDiretor(DiretorDTO diretorDTO) {
+
+    Diretor diretor = diretorRepository.findById(diretorDTO.getId()).get();
+
+    DiretorMapper.INSTANCE.updateDiretorFromDiretorDTO(diretorDTO, diretor);
+
+    Diretor diretorUptaded = diretorRepository.save(diretor);
+
+    return DiretorMapper.INSTANCE.diretorToDiretorDTO(diretorUptaded);
+  }
+
+  public void deleteDiretor(Long id) {
     diretorRepository.deleteById(id);
   }
 
-  public DiretorDTO updateProfessor(DiretorDTO diretorDTO){
-    
-      Diretor diretor = diretorRepository.findById(diretorDTO.getId()).get();
-
-      DiretorMapper.INSTANCE.updatediretorFromdiretorDTO(diretorDTO, diretor);
-
-      Diretor diretorUptaded = diretorRepository.save(diretor);
-
-      return DiretorMapper.INSTANCE.ProfessorTodiretorDTO(diretorUptaded);
-  }
-
-  public DiretorDTO getDiretor(Long id){
-    Optional<Diretor> diretor = diretorRepository.findById(id);
-
-    if(!diretor.isPresent()){
-      //
-    }
-
-    DiretorDTO diretorDTO = new DiretorDTO();
-    diretorDTO.setData(diretor.get());
-    return diretorDTO;
-
-  }
+}

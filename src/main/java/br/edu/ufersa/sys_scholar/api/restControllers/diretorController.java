@@ -47,3 +47,4 @@ public class diretorController {
     public ResponseEntity<DiretorDTO> updateDiretor(@RequestBody DiretorDTO diretorDTO) {
         return new ResponseEntity<>(diretorService.updateDiretor(diretorDTO), HttpStatus.OK);
     }
+}

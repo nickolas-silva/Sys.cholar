@@ -2,17 +2,12 @@ package br.edu.ufersa.sys_scholar.api.mappers;
 
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
 import br.edu.ufersa.sys_scholar.api.dto.DisciplinaDTO;
-import br.edu.ufersa.sys_scholar.api.dto.NotaDisciplinaDTO;
 import br.edu.ufersa.sys_scholar.domain.entity.Disciplina;
-import br.edu.ufersa.sys_scholar.domain.entity.Nota;
 
 @Mapper
 public interface DisciplinaMapper {

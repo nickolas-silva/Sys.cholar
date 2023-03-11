@@ -2,11 +2,9 @@ package br.edu.ufersa.sys_scholar.api.dto;
 
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.AccessLevel;
 
 @Getter
 @Setter
