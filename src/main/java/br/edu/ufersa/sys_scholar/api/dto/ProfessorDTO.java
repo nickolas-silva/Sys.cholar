@@ -9,8 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProfessorDTO implements InterfaceDTO<Professor>{
-
+public class ProfessorDTO {
   private Long id;
   private Integer codigo;
   private String nome;
@@ -19,26 +18,4 @@ public class ProfessorDTO implements InterfaceDTO<Professor>{
   private String usuario;
   private String senha;
   private List<Disciplina> disciplinas;
-  @Override
-  public Professor convert() {
-    Professor professor = new Professor();
-    professor.setId(this.id);
-    professor.setCodigo(this.codigo);
-    professor.setNome(this.nome);
-    professor.setCpf(this.cpf);
-    professor.setEndereco(this.endereco.convert());
-    return professor;
-  }
-
-  @Override
-  public void setData(Professor professor) {
-    this.id = professor.getId();
-    this.codigo = professor.getCodigo();
-    this.nome = professor.getNome();
-    this.cpf = professor.getCpf();
-    EnderecoDTO enderecoDTO = new EnderecoDTO();
-    enderecoDTO.setData(professor.getEndereco());
-    this.endereco = enderecoDTO;
-  }
-  
 }

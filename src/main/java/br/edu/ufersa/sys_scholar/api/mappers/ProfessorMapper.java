@@ -1,5 +1,8 @@
 package br.edu.ufersa.sys_scholar.api.mappers;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,10 +20,13 @@ public interface ProfessorMapper {
   ProfessorMapper INSTANCE = Mappers.getMapper(ProfessorMapper.class);
 
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
-  ProfessorDTO ProfessorToprofessorDTO(Professor professor);
+  ProfessorDTO professorToProfessorDTO(Professor professorUpdated);
 
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoDTOToEndereco")
   Professor professorDTOToProfessor(ProfessorDTO professorDTO);
+
+  @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoDTOToEndereco")
+  List<ProfessorDTO> professoresToProfessorDTOs(List<Professor> professorDTOs);
 
   @Named("enderecoToEnderecoDTO")
   public static EnderecoDTO enderecoToEnderecoDTO(Endereco endereco) {
