@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDTO;
 import br.edu.ufersa.sys_scholar.api.mappers.ProfessorMapper;
+import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
 import br.edu.ufersa.sys_scholar.domain.entity.Professor;
 import br.edu.ufersa.sys_scholar.domain.repository.ProfessorRepository;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,11 @@ public class ProfessorService {
 
   public ProfessorDTO saveProfessor(ProfessorDTO professorDTO) {
     Professor professor = ProfessorMapper.INSTANCE.professorDTOToProfessor(professorDTO);
+
+    if (professor.getEndereco() == null) {
+      professor.setEndereco(new Endereco());
+    }
+
     Professor newProfessor = professorRepository.save(professor);
 
     return ProfessorMapper.INSTANCE.professorToProfessorDTO(newProfessor);

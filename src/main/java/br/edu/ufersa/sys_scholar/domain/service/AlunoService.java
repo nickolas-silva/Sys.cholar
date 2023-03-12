@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapper;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
+import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
 import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.NotaRepository;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,11 @@ public class AlunoService {
     public AlunoDTO saveAluno(AlunoDTO alunoDTO) {
 
         Aluno aluno = AlunoMapper.INSTANCE.alunoDTOToAluno(alunoDTO);
+
+        if (aluno.getEndereco() == null) {
+            aluno.setEndereco(new Endereco());
+        }
+
         Aluno newAluno = alunoRepository.save(aluno);
 
         return AlunoMapper.INSTANCE.alunoToAlunoDTO(newAluno);
