@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapper;
+import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapperImpl;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.NotaRepository;
@@ -25,15 +26,8 @@ public class AlunoService {
 
     public List<AlunoDTO> getAlunos() {
         final List<Aluno> alunos = (List<Aluno>) alunoRepository.findAll();
-        List<AlunoDTO> alunoDTOs = new ArrayList<>();
 
-        for (Aluno aluno : alunos) {
-            AlunoDTO alunoDTO = new AlunoDTO();
-            alunoDTO.setData(aluno);
-            alunoDTOs.add(alunoDTO);
-        }
-
-        return alunoDTOs;
+        return AlunoMapper.INSTANCE.alunosToAlunoDTOs(alunos);
     }
 
     public AlunoDTO getAluno(Long id) {
@@ -43,19 +37,15 @@ public class AlunoService {
             // Tratar
         }
 
-        AlunoDTO alunoDTO = new AlunoDTO();
-        alunoDTO.setData(aluno.get());
-
-        return alunoDTO;
+        return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno.get());
     }
 
     public AlunoDTO saveAluno(AlunoDTO alunoDTO) {
-        Aluno aluno = alunoRepository.save(alunoDTO.convert());
 
-        AlunoDTO newAlunoDTO = new AlunoDTO();
-        newAlunoDTO.setData(aluno);
+        Aluno aluno = AlunoMapper.INSTANCE.alunoDTOToAluno(alunoDTO);
+        Aluno newAluno = alunoRepository.save(aluno);
 
-        return newAlunoDTO;
+        return AlunoMapper.INSTANCE.alunoToAlunoDTO(newAluno);
     }
 
     public void deleteAluno(Long id) {
@@ -70,6 +60,6 @@ public class AlunoService {
 
         alunoRepository.save(aluno);
 
-        return AlunoMapper.INSTANCE.AlunoToAlunoDTO(aluno);
+        return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno);
     }
 }

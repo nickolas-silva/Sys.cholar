@@ -13,7 +13,6 @@ public class DiretorDTO {
     private String nome;
     private Integer cpf;
     private String usuario;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected String senha;
 }

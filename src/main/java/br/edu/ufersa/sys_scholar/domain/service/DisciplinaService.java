@@ -25,15 +25,9 @@ public class DisciplinaService {
     DisciplinaRepository disciplinaRepository;
     NotaRepository notaRepository;
 
-    private DisciplinaDTO convertToDisciplinaDTO(Disciplina disciplina) {
-        DisciplinaDTO disciplinaDTO = new DisciplinaDTO();
-        disciplinaDTO.setData(disciplina);
-        return disciplinaDTO;
-    }
-
     private List<Nota> convertToNota(DisciplinaDTO disciplinaDTO) {
         List<Nota> listNotas = new ArrayList<>();
-        Disciplina disciplina = DisciplinaMapper.INSTANCE.DisciplinaDTOToDisciplina(disciplinaDTO);
+        Disciplina disciplina = DisciplinaMapper.INSTANCE.disciplinaDTOToDisciplina(disciplinaDTO);
         disciplina.setNotas(null);
         for (NotaDisciplinaDTO notaDisciplinaDTO : disciplinaDTO.getNotas()) {
             Nota nota = NotaMapper.INSTANCE.NotaDisciplinaDTOToNota(notaDisciplinaDTO);
@@ -46,32 +40,25 @@ public class DisciplinaService {
     public DisciplinaDTO getDisciplina(Long id) {
         Optional<Disciplina> disciplina = disciplinaRepository.findById(id);
         if (disciplina.isPresent()) {
-            return convertToDisciplinaDTO(disciplina.get());
+            return DisciplinaMapper.INSTANCE.disciplinaToDisciplinaDTO(disciplina.get());
         }
         return null;
     }
 
     public List<DisciplinaDTO> getDisciplinas() {
         List<Disciplina> disciplinas = (List<Disciplina>) disciplinaRepository.findAll();
-        List<DisciplinaDTO> disciplinaDTOs = new ArrayList<>();
-
-        for (Disciplina disciplina : disciplinas) {
-            disciplinaDTOs.add(convertToDisciplinaDTO(disciplina));
-        }
-
-        return disciplinaDTOs;
+        return DisciplinaMapper.INSTANCE.disciplinasToDisciplinaDTOs(disciplinas);
     }
 
     public DisciplinaDTO saveDisciplina(DisciplinaDTO disciplinaDTO) {
         if (disciplinaDTO.getId() != null) {
             // gerar execessão
         }
-        Disciplina disciplina = disciplinaRepository.save(disciplinaDTO.convert());
 
-        DisciplinaDTO disciplinaDTOSaved = new DisciplinaDTO();
-        disciplinaDTOSaved.setData(disciplina);
+        Disciplina disciplina = DisciplinaMapper.INSTANCE.disciplinaDTOToDisciplina(disciplinaDTO);
+        Disciplina newDisciplina = disciplinaRepository.save(disciplina);
 
-        return disciplinaDTOSaved;
+        return DisciplinaMapper.INSTANCE.disciplinaToDisciplinaDTO(newDisciplina);
     }
 
     public void deleteDisciplina(Long id) {
@@ -98,7 +85,7 @@ public class DisciplinaService {
         DisciplinaMapper.INSTANCE.updateDisciplinaFromDisciplinaDTO(disciplinaDTO, disciplina);
         disciplina.setNotas(null);
         Disciplina disciplinaUpdated = disciplinaRepository.save(disciplina);
-        DisciplinaDTO disciplinaDTOUpdated = DisciplinaMapper.INSTANCE.DisciplinaToDisciplinaDTO(disciplinaUpdated);
+        DisciplinaDTO disciplinaDTOUpdated = DisciplinaMapper.INSTANCE.disciplinaToDisciplinaDTO(disciplinaUpdated);
 
         return disciplinaDTOUpdated;
     }

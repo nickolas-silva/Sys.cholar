@@ -30,17 +30,14 @@ public interface ProfessorMapper {
 
   @Named("enderecoToEnderecoDTO")
   public static EnderecoDTO enderecoToEnderecoDTO(Endereco endereco) {
-    EnderecoDTO enderecoDTO = new EnderecoDTO();
-    enderecoDTO.setData(endereco);
 
-    return enderecoDTO;
+    return EnderecoMapper.INSTANCE.EnderecoToEnderecoDTO(endereco);
   }
 
   @Named("enderecoDTOToEndereco")
   public static Endereco enderecoDTOToEndereco(EnderecoDTO enderecoDTO) {
-    Endereco endereco = enderecoDTO.convert();
 
-    return endereco;
+    return EnderecoMapper.INSTANCE.EnderecoDTOToEndereco(enderecoDTO);
   }
 
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

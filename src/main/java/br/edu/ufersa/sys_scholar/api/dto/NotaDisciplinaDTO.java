@@ -12,16 +12,4 @@ public class NotaDisciplinaDTO extends AbstractNotaDTO {
 
     private AlunoDisciplinaDTO aluno;
 
-    public Nota convert() {
-        Nota nota = super.convert();
-        nota.setAluno(aluno.convert());
-        return nota;
-    }
-
-    public void setData(Nota nota) {
-        super.setData(nota);
-        AlunoDisciplinaDTO alunoDisciplinaDTO = new AlunoDisciplinaDTO();
-        alunoDisciplinaDTO.setData(nota.getAluno());
-        this.aluno = alunoDisciplinaDTO;
-    }
 }

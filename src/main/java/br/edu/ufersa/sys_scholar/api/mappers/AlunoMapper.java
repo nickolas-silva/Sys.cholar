@@ -1,5 +1,7 @@
 package br.edu.ufersa.sys_scholar.api.mappers;
 
+import java.util.List;
+
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,7 +21,15 @@ public interface AlunoMapper {
 
     @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
     @Mapping(target = "notas", ignore = true)
-    AlunoDTO AlunoToAlunoDTO(Aluno aluno);
+    AlunoDTO alunoToAlunoDTO(Aluno aluno);
+
+    @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoDTOToEndereco")
+    @Mapping(target = "notas", ignore = true)
+    Aluno alunoDTOToAluno(AlunoDTO aluno);
+
+    @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
+    @Mapping(target = "notas", ignore = true)
+    List<AlunoDTO> alunosToAlunoDTOs(List<Aluno> alunos);
 
     // @Mapping(target = "notas", ignore = true)
     // @Mapping(target = "endereco", ignore = true)
@@ -27,10 +37,12 @@ public interface AlunoMapper {
 
     @Named("enderecoToEnderecoDTO")
     public static EnderecoDTO enderecoToEnderecoDTO(Endereco endereco) {
-        EnderecoDTO enderecoDTO = new EnderecoDTO();
-        enderecoDTO.setData(endereco);
+        return EnderecoMapper.INSTANCE.EnderecoToEnderecoDTO(endereco);
+    }
 
-        return enderecoDTO;
+    @Named("enderecoDTOToEndereco")
+    public static Endereco enderecoDTOToEndereco(EnderecoDTO enderecoDTO) {
+        return EnderecoMapper.INSTANCE.EnderecoDTOToEndereco(enderecoDTO);
     }
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
