@@ -8,5 +8,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class AbstractDisciplinaDTO extends AbstractBaseDisciplinaDTO {
-    protected List<NotaDisciplinaDTO> notas;
+    protected ProfessorDisciplinaDTO professor;
 }
