@@ -1,13 +1,10 @@
 package br.edu.ufersa.sys_scholar.domain.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapper;
-import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapperImpl;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.NotaRepository;

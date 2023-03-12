@@ -1,13 +1,11 @@
 package br.edu.ufersa.sys_scholar.domain.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDTO;
 import br.edu.ufersa.sys_scholar.api.mappers.ProfessorMapper;
 import br.edu.ufersa.sys_scholar.domain.entity.Professor;
-//import br.edu.ufersa.sys_scholar.domain.repository.NotaRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.ProfessorRepository;
 import lombok.AllArgsConstructor;
 

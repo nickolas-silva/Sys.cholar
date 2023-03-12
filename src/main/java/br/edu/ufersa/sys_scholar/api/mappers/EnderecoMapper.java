@@ -5,7 +5,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
-
 import br.edu.ufersa.sys_scholar.api.dto.EnderecoDTO;
 import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
 
