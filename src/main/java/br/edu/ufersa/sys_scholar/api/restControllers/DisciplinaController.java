@@ -36,7 +36,7 @@ public class DisciplinaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteDisciplina(@PathVariable Long id) {
         disciplinaService.deleteDisciplina(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     // @Valid adicionar essa annotation

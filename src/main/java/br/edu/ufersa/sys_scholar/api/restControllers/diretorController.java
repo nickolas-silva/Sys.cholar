@@ -40,7 +40,7 @@ public class diretorController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteDiretor(@PathVariable Long id) {
         diretorService.deleteDiretor(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping

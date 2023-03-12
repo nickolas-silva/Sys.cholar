@@ -40,7 +40,7 @@ public class AlunoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteAluno(@PathVariable Long id) {
         alunoService.deleteAluno(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping
