@@ -32,9 +32,16 @@ public class DiretorController {
         return new ResponseEntity<>(diretorService.getDiretor(id), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<DiretorDTO> saveDiretor(@RequestBody DiretorDTO diretorDTO) {
-        return new ResponseEntity<>(diretorService.saveDiretor(diretorDTO), HttpStatus.CREATED);
+    // @PostMapping
+    // public ResponseEntity<DiretorDTO> saveDiretor(@RequestBody DiretorDTO
+    // diretorDTO) {
+    // return new ResponseEntity<>(diretorService.saveDiretor(diretorDTO),
+    // HttpStatus.CREATED);
+    // }
+
+    @GetMapping("/create")
+    public ResponseEntity<DiretorDTO> createDiretor() {
+        return new ResponseEntity<>(diretorService.saveDiretor(null), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

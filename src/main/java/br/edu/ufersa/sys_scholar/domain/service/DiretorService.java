@@ -30,6 +30,10 @@ public class DiretorService {
 
   public DiretorDTO saveDiretor(DiretorDTO diretorDTO) {
 
+    if (diretorDTO == null) {
+      diretorDTO = new DiretorDTO();
+    }
+
     Diretor diretor = DiretorMapper.INSTANCE.diretorDTOToDiretor(diretorDTO);
 
     diretor.setCodigo(new Codigo());

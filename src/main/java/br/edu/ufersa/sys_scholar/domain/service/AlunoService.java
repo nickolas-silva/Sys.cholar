@@ -41,6 +41,10 @@ public class AlunoService {
 
     public AlunoDTO saveAluno(AlunoDTO alunoDTO) {
 
+        if (alunoDTO == null) {
+            alunoDTO = new AlunoDTO();
+        }
+
         Aluno aluno = AlunoMapper.INSTANCE.alunoDTOToAluno(alunoDTO);
 
         if (aluno.getEndereco() == null) {

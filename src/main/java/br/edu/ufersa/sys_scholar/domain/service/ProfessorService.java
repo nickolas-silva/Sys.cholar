@@ -26,6 +26,11 @@ public class ProfessorService {
   }
 
   public ProfessorDTO saveProfessor(ProfessorDTO professorDTO) {
+
+    if (professorDTO == null) {
+      professorDTO = new ProfessorDTO();
+    }
+
     Professor professor = ProfessorMapper.INSTANCE.professorDTOToProfessor(professorDTO);
 
     if (professor.getEndereco() == null) {

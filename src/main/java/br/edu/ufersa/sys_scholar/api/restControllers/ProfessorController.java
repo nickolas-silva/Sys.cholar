@@ -36,9 +36,17 @@ public class ProfessorController {
         HttpStatus.OK);
   }
 
-  @PostMapping
-  public ResponseEntity<ProfessorDTO> saveProfessor(@RequestBody ProfessorDTO professor) {
-    return new ResponseEntity<>(professorService.saveProfessor(professor), HttpStatus.OK);
+  // @PostMapping
+  // public ResponseEntity<ProfessorDTO> saveProfessor(@RequestBody ProfessorDTO
+  // professor) {
+  // return new ResponseEntity<>(professorService.saveProfessor(professor),
+  // HttpStatus.OK);
+  // }
+
+  @GetMapping("/create")
+  public ResponseEntity<ProfessorDTO> createProfessor() {
+    return new ResponseEntity<>(professorService.saveProfessor(null),
+        HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")
