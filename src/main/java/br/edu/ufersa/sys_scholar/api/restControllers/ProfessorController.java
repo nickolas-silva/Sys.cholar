@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDTO;
+import br.edu.ufersa.sys_scholar.domain.entity.Professor;
 import br.edu.ufersa.sys_scholar.domain.repository.ProfessorRepository;
 import br.edu.ufersa.sys_scholar.domain.service.ProfessorService;
 import lombok.AllArgsConstructor;
@@ -25,17 +26,6 @@ public class ProfessorController {
   ProfessorService professorService;
   ProfessorRepository professorRepository;
 
-  @GetMapping
-  public ResponseEntity<List<ProfessorDTO>> getProfessores() {
-    return new ResponseEntity<>(professorService.getProfessores(), HttpStatus.OK);
-  }
-
-  @GetMapping("/{id}")
-  public ResponseEntity<ProfessorDTO> getProfessor(@PathVariable Long id) {
-    return new ResponseEntity<>(professorService.getProfessor(id),
-        HttpStatus.OK);
-  }
-
   // @PostMapping
   // public ResponseEntity<ProfessorDTO> saveProfessor(@RequestBody ProfessorDTO
   // professor) {
@@ -43,9 +33,10 @@ public class ProfessorController {
   // HttpStatus.OK);
   // }
 
-  @GetMapping("/create")
-  public ResponseEntity<ProfessorDTO> createProfessor() {
-    return new ResponseEntity<>(professorService.saveProfessor(null),
+  @GetMapping("/{id}")
+  public ResponseEntity<ProfessorDTO> getProfessor(@PathVariable Long id) {
+    System.out.println(id);
+    return new ResponseEntity<>(professorService.getProfessor(id),
         HttpStatus.OK);
   }
 

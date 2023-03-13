@@ -24,25 +24,9 @@ public class AlunoController {
 
     AlunoService alunoService;
 
-    @GetMapping
-    public ResponseEntity<List<AlunoDTO>> getAlunos() {
-        return new ResponseEntity<>(alunoService.getAlunos(), HttpStatus.OK);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<AlunoDTO> getAluno(@PathVariable Long id) {
         return new ResponseEntity<>(alunoService.getAluno(id), HttpStatus.OK);
-    }
-
-    // @PostMapping
-    // public ResponseEntity<AlunoDTO> saveAluno(@RequestBody AlunoDTO alunoDTO) {
-    // return new ResponseEntity<>(alunoService.saveAluno(alunoDTO),
-    // HttpStatus.CREATED);
-    // }
-
-    @GetMapping("/create")
-    public ResponseEntity<AlunoDTO> createAluno() {
-        return new ResponseEntity<>(alunoService.saveAluno(null), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

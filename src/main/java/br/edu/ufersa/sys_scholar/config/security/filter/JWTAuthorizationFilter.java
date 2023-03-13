@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
 import br.edu.ufersa.sys_scholar.config.security.SecurityConstants;
+import br.edu.ufersa.sys_scholar.config.security.utils.RequestPathFilters;
 
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
@@ -52,9 +53,17 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
         ///////////////////////
 
+        RequestPathFilters pathFilter = new RequestPathFilters(request.getRequestURI(), userDTO);
+
         // final String currentPath = request.getRequestURI();
 
-        // if (userDTO.isAluno()) {
+        if ((!pathFilter.isAuthorizedToPathAluno()) &&
+                (!pathFilter.isAuthorizedToPathProfessor())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // if (pathFilter.isAluno()) {
         // filterChain.doFilter(request, response);
         // return;
         // }
