@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractProfessorDTO {
   private Long id;
-  private Integer codigo;
+  private Long codigo;
   private String nome;
   private Integer cpf;
   private EnderecoDTO endereco;

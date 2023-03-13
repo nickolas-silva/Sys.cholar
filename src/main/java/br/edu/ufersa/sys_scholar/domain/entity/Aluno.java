@@ -30,8 +30,12 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    private Integer codigo;
+    // @NonNull
+    // private Integer codigo;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "codigo_id", referencedColumnName = "id")
+    private Codigo codigo;
 
     private String nome;
 

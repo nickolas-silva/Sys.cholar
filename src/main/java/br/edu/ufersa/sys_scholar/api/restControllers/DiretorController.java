@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/diretor")
 @AllArgsConstructor
-public class diretorController {
+public class DiretorController {
 
     DiretorService diretorService;
 

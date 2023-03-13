@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import br.edu.ufersa.sys_scholar.api.dto.DiretorDTO;
+import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Diretor;
 import br.edu.ufersa.sys_scholar.domain.repository.DiretorRepository;
 import br.edu.ufersa.sys_scholar.api.mappers.DiretorMapper;
@@ -30,6 +31,8 @@ public class DiretorService {
   public DiretorDTO saveDiretor(DiretorDTO diretorDTO) {
 
     Diretor diretor = DiretorMapper.INSTANCE.diretorDTOToDiretor(diretorDTO);
+
+    diretor.setCodigo(new Codigo());
 
     Diretor newDiretor = diretorRepository.save(diretor);
 

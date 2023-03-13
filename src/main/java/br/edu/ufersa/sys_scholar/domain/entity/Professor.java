@@ -29,7 +29,10 @@ public class Professor {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Integer codigo;
+  @OneToOne(optional = false, cascade = CascadeType.ALL)
+  @JoinColumn(name = "codigo_id", referencedColumnName = "id")
+  private Codigo codigo;
+
   private String nome;
   private Integer cpf;
   private String usuario;

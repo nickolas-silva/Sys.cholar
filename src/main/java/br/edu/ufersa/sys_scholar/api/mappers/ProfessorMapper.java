@@ -13,6 +13,7 @@ import br.edu.ufersa.sys_scholar.api.dto.DisciplinaProfessorDTO;
 import br.edu.ufersa.sys_scholar.api.dto.EnderecoDTO;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDTO;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDisciplinaDTO;
+import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Disciplina;
 import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
 import br.edu.ufersa.sys_scholar.domain.entity.Professor;
@@ -21,17 +22,21 @@ import br.edu.ufersa.sys_scholar.domain.entity.Professor;
 public interface ProfessorMapper {
   ProfessorMapper INSTANCE = Mappers.getMapper(ProfessorMapper.class);
 
+  @Mapping(source = "codigo", target = "codigo", qualifiedByName = "codigoToLong")
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
   @Mapping(source = "disciplinas", target = "disciplinas", qualifiedByName = "disciplinasToDisciplinaProfessorDTOs")
   ProfessorDTO professorToProfessorDTO(Professor professor);
 
+  @Mapping(source = "codigo", target = "codigo", qualifiedByName = "longToCodigo")
   @Mapping(source = "disciplinas", target = "disciplinas", qualifiedByName = "disciplinaProfessorDTOsToDisciplinas")
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoDTOToEndereco")
   Professor professorDTOToProfessor(ProfessorDTO professorDTO);
 
+  @Mapping(source = "codigo", target = "codigo", qualifiedByName = "codigoToLong")
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
   ProfessorDisciplinaDTO professorToProfessorDisciplinaDTO(Professor professor);
 
+  @Mapping(source = "codigo", target = "codigo", qualifiedByName = "longToCodigo")
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoDTOToEndereco")
   Professor professorDisciplinaDTOToProfessor(ProfessorDisciplinaDTO professorDisciplinaDTO);
 
@@ -62,6 +67,19 @@ public interface ProfessorMapper {
     return DisciplinaMapper.INSTANCE.disciplinaProfessorDTOsToDisciplinas(disciplinaProfessorDTOs);
   }
 
+  @Named("codigoToLong")
+  public static Long codigoToLong(Codigo codigo) {
+    return codigo.getId();
+  }
+
+  @Named("longToCodigo")
+  public static Codigo LongToCodigo(Long codigo) {
+    Codigo newCodigo = new Codigo();
+    newCodigo.setId(codigo);
+    return newCodigo;
+  }
+
+  @Mapping(source = "codigo", target = "codigo", qualifiedByName = "longToCodigo")
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   void updateProfessorFromProfessorDTO(ProfessorDTO professorDTO, @MappingTarget Professor professor);
 

@@ -9,7 +9,7 @@ import lombok.Setter;
 public class DiretorDTO {
 
     private Long id;
-    private Integer codigo;
+    private Long codigo;
     private String nome;
     private Integer cpf;
     private String usuario;

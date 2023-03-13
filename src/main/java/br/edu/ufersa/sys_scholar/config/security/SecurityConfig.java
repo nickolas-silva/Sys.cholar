@@ -26,13 +26,14 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                // .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
-                .addFilter(authenticationFilter)
-                .addFilterAfter(new JWTAuthorizationFilter(), AuthenticationFilter.class)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anyRequest().permitAll();
+        // .antMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
+        // .anyRequest().authenticated()
+        // .and()
+        // .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
+        // .addFilter(authenticationFilter)
+        // .addFilterAfter(new JWTAuthorizationFilter(), AuthenticationFilter.class)
+        // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
 

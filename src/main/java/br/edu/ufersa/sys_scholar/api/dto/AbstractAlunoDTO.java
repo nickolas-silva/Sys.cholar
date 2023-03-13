@@ -9,7 +9,7 @@ public abstract class AbstractAlunoDTO {
 
     protected Long id;
 
-    protected Integer codigo;
+    protected Long codigo;
 
     protected String nome;
 }
