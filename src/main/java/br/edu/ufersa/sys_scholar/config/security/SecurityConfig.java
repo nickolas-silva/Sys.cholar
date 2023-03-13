@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import br.edu.ufersa.sys_scholar.config.security.filter.AuthenticationFilter;
 import br.edu.ufersa.sys_scholar.config.security.manager.CustomAuthenticationManager;
-import br.edu.ufersa.sys_scholar.config.security.filter.ExceptionHandlerFilter;
 import br.edu.ufersa.sys_scholar.config.security.filter.JWTAuthorizationFilter;
 import lombok.AllArgsConstructor;
 

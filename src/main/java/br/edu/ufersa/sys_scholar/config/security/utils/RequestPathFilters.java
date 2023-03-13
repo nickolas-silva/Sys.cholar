@@ -1,7 +1,5 @@
 package br.edu.ufersa.sys_scholar.config.security.utils;
 
-import org.mapstruct.control.MappingControl.Use;
-
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
 
 public class RequestPathFilters {

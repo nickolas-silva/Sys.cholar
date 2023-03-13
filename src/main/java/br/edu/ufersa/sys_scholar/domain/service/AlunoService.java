@@ -42,6 +42,16 @@ public class AlunoService {
         return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno.get());
     }
 
+    public AlunoDTO getAlunoByUsuario(String usuario) {
+        Optional<Aluno> aluno = alunoRepository.findByUsuario(usuario);
+
+        if (!aluno.isPresent()) {
+            // Tratar
+        }
+
+        return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno.get());
+    }
+
     public AlunoDTO saveAluno(AlunoDTO alunoDTO) {
 
         if (alunoDTO == null) {
