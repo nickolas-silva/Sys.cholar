@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .and()
                 // .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
                 .addFilter(authenticationFilter)
-                // .addFilterAfter(new JWTAuthorizationFilter(), AuthenticationFilter.class)
+                .addFilterAfter(new JWTAuthorizationFilter(), AuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();

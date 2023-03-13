@@ -6,7 +6,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDTO {
-    String usuario;
-    String senha;
-    String role;
+    private String usuario;
+    private String senha;
+    private String role;
+
+    public Boolean isDiretor() {
+        return this.role.equals("diretor");
+    }
+
+    public Boolean isProfessor() {
+        return this.role.equals("professor");
+    }
+
+    public Boolean isAluno() {
+        return this.role.equals("aluno");
+    }
 }
