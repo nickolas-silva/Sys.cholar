@@ -2,6 +2,8 @@ package br.edu.ufersa.sys_scholar.domain.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapper;
@@ -20,8 +22,9 @@ public class AlunoService {
     // Update
     // Delete
 
-    AlunoRepository alunoRepository;
-    NotaRepository notaRepository;
+    private AlunoRepository alunoRepository;
+    private NotaRepository notaRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<AlunoDTO> getAlunos() {
         final List<Aluno> alunos = (List<Aluno>) alunoRepository.findAll();
@@ -63,6 +66,8 @@ public class AlunoService {
     }
 
     public AlunoDTO updateAluno(AlunoDTO alunoDTO) {
+
+        alunoDTO.setSenha(bCryptPasswordEncoder.encode(alunoDTO.getSenha()));
 
         Aluno aluno = alunoRepository.findById(alunoDTO.getId()).get();
 

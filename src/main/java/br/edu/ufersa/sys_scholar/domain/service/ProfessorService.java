@@ -2,6 +2,8 @@ package br.edu.ufersa.sys_scholar.domain.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDTO;
 import br.edu.ufersa.sys_scholar.api.mappers.ProfessorMapper;
@@ -15,6 +17,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ProfessorService {
   ProfessorRepository professorRepository;
+  BCryptPasswordEncoder bCryptPasswordEncoder;
   // NotaRepository notaRepository;
 
   public List<ProfessorDTO> getProfessores() {
@@ -49,6 +52,8 @@ public class ProfessorService {
   }
 
   public ProfessorDTO updateProfessor(ProfessorDTO professorDTO) {
+
+    professorDTO.setSenha(bCryptPasswordEncoder.encode(professorDTO.getSenha()));
 
     Professor professor = professorRepository.findById(professorDTO.getId()).get();
 

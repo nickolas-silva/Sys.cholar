@@ -32,14 +32,16 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         String role = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY))
                 .build()
                 .verify(token)
-                .getSubject();
+                .getPayload();
 
         final String currentPath = request.getRequestURI();
 
-        if (!currentPath.startsWith("/" + role)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        // if (!currentPath.startsWith("/" + role)) {
+        // filterChain.doFilter(request, response);
+        // return;
+        // }
+
+        System.out.println(token);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(role, null, Arrays.asList());
         SecurityContextHolder.getContext().setAuthentication(authentication);

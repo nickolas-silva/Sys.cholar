@@ -2,6 +2,8 @@ package br.edu.ufersa.sys_scholar.config.security.filter;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -49,8 +51,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
+        UserDTO userDTO = (UserDTO) authResult.getDetails();
+
+        Map<String, String> payload = new HashMap<>();
+        payload.put("usuario", userDTO.getUsuario());
+        payload.put("role", userDTO.getRole());
+
         String token = JWT.create()
-                .withSubject(authResult.getName())
+                .withPayload(payload)
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);

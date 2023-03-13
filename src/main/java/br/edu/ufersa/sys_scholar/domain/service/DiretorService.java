@@ -1,5 +1,6 @@
 package br.edu.ufersa.sys_scholar.domain.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DiretorService {
 
-  DiretorRepository diretorRepository;
+  private DiretorRepository diretorRepository;
+
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   public List<DiretorDTO> getDiretores() {
     List<Diretor> diretores = (List<Diretor>) diretorRepository.findAll();
@@ -44,6 +47,8 @@ public class DiretorService {
   }
 
   public DiretorDTO updateDiretor(DiretorDTO diretorDTO) {
+
+    diretorDTO.setSenha(bCryptPasswordEncoder.encode(diretorDTO.getSenha()));
 
     Diretor diretor = diretorRepository.findById(diretorDTO.getId()).get();
 

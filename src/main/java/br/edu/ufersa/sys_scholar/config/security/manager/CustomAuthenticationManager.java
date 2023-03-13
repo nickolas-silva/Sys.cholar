@@ -8,7 +8,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
+import br.edu.ufersa.sys_scholar.domain.service.LoginService;
 import lombok.AllArgsConstructor;
 
 @Component
@@ -17,21 +19,28 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private LoginService loginService;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         // User user = userServiceImpl.getUser(authentication.getName());
 
-        // if
-        // (!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(),
-        // user.getPassword())) {
-        // throw new BadCredentialsException("You provided an incorrect password.");
-        // }
+        UserDTO userDTO = loginService.findByUsuario(authentication.getName());
 
-        if (!(authentication.getName().equals("aluno") && authentication.getCredentials().toString().equals("aluno"))) {
-            throw new BadCredentialsException("You provided an incorrect password." + authentication.getName()
-                    + authentication.getCredentials().toString());
+        System.out.println("testando_autenticação" + userDTO.getRole());
+
+        if (!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), userDTO.getSenha())) {
+            throw new BadCredentialsException("You provided an incorrect password.");
         }
 
-        return new UsernamePasswordAuthenticationToken("aluno", authentication.getCredentials().toString());
+        userDTO.setSenha(null);
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDTO.getUsuario(),
+                authentication.getCredentials().toString());
+        ;
+
+        token.setDetails(userDTO);
+
+        return token;
     }
 }
