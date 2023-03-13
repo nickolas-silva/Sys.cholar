@@ -24,4 +24,5 @@ public class Usuario {
 
     @Column(unique = true)
     private String value;
+
 }

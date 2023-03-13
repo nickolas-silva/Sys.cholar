@@ -7,5 +7,5 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ProfessorRepository extends CrudRepository<Professor, Long> {
-    public Optional<Professor> findByUsuario(String usuario);
+    public Optional<Professor> findByUsuarioId(Long usuario);
 }

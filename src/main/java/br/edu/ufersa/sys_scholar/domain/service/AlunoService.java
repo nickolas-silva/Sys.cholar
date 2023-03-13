@@ -43,7 +43,7 @@ public class AlunoService {
     }
 
     public AlunoDTO getAlunoByUsuario(String usuario) {
-        Optional<Aluno> aluno = alunoRepository.findByUsuario(usuario);
+        Optional<Aluno> aluno = alunoRepository.findByUsuarioId(10L);
 
         if (!aluno.isPresent()) {
             // Tratar
@@ -82,6 +82,21 @@ public class AlunoService {
         }
 
         Aluno aluno = alunoRepository.findById(alunoDTO.getId()).get();
+
+        AlunoMapper.INSTANCE.updateAlunoFromAlunoDTO(alunoDTO, aluno);
+
+        alunoRepository.save(aluno);
+
+        return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno);
+    }
+
+    public AlunoDTO registerAluno(AlunoDTO alunoDTO) {
+
+        if (alunoDTO.getSenha() != null) {
+            alunoDTO.setSenha(bCryptPasswordEncoder.encode(alunoDTO.getSenha()));
+        }
+
+        Aluno aluno = alunoRepository.findByUsuarioId(alunoDTO.getCodigo()).get();
 
         AlunoMapper.INSTANCE.updateAlunoFromAlunoDTO(alunoDTO, aluno);
 

@@ -7,5 +7,5 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DiretorRepository extends CrudRepository<Diretor, Long> {
-    public Optional<Diretor> findByUsuario(String usuario);
+    public Optional<Diretor> findByUsuarioId(Long usuario);
 }

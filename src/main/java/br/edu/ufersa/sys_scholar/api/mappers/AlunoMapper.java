@@ -67,20 +67,6 @@ public interface AlunoMapper {
         return newCodigo;
     }
 
-    @Named("codigoToCodigoDTO")
-    public static CodigoDTO codigoToCodigoDTO(Codigo codigo) {
-        return CodigoMapper.INSTANCE.codigoToCodigoDTO(codigo);
-
-        // return codigo.getId();
-    }
-
-    @Named("codigoDTOToCodigo")
-    public static Codigo codigoDTOToCodigo(CodigoDTO codigoDTO) {
-        // Codigo codigo = new Codigo();
-        // return codigo;
-        return CodigoMapper.INSTANCE.codigoDTOToCodigo(codigoDTO);
-    }
-
     @Named("enderecoToEnderecoDTO")
     public static EnderecoDTO enderecoToEnderecoDTO(Endereco endereco) {
         return EnderecoMapper.INSTANCE.EnderecoToEnderecoDTO(endereco);
