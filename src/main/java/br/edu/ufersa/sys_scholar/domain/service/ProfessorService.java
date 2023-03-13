@@ -10,14 +10,18 @@ import br.edu.ufersa.sys_scholar.api.mappers.ProfessorMapper;
 import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
 import br.edu.ufersa.sys_scholar.domain.entity.Professor;
+import br.edu.ufersa.sys_scholar.domain.entity.Usuario;
 import br.edu.ufersa.sys_scholar.domain.repository.ProfessorRepository;
+import br.edu.ufersa.sys_scholar.domain.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class ProfessorService {
-  ProfessorRepository professorRepository;
-  BCryptPasswordEncoder bCryptPasswordEncoder;
+  private ProfessorRepository professorRepository;
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  private UsuarioRepository usuarioRepository;
+
   // NotaRepository notaRepository;
 
   public List<ProfessorDTO> getProfessores() {
@@ -72,5 +76,32 @@ public class ProfessorService {
     }
 
     return ProfessorMapper.INSTANCE.professorToProfessorDTO(professor.get());
+  }
+
+  public ProfessorDTO getProfessorByUsuario(String value) {
+    Optional<Usuario> usuario = usuarioRepository.findByValue(value);
+
+    if (!usuario.isPresent()) {
+      // Tratar
+    }
+
+    Optional<Professor> aluno = professorRepository.findByUsuarioId(usuario.get().getId());
+
+    return ProfessorMapper.INSTANCE.professorToProfessorDTO(aluno.get());
+  }
+
+  public ProfessorDTO registerProfessor(ProfessorDTO professorDTO) {
+
+    if (professorDTO.getSenha() != null) {
+      professorDTO.setSenha(bCryptPasswordEncoder.encode(professorDTO.getSenha()));
+    }
+
+    Optional<Professor> professor = professorRepository.findByCodigoId(professorDTO.getCodigo());
+
+    ProfessorMapper.INSTANCE.updateProfessorFromProfessorDTO(professorDTO, professor.get());
+
+    Professor newProfessor = professorRepository.save(professor.get());
+
+    return ProfessorMapper.INSTANCE.professorToProfessorDTO(newProfessor);
   }
 }

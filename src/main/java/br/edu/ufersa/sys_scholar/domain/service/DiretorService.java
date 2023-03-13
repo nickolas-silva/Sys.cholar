@@ -4,10 +4,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 import br.edu.ufersa.sys_scholar.api.dto.DiretorDTO;
 import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Diretor;
+import br.edu.ufersa.sys_scholar.domain.entity.Usuario;
 import br.edu.ufersa.sys_scholar.domain.repository.DiretorRepository;
+import br.edu.ufersa.sys_scholar.domain.repository.UsuarioRepository;
 import br.edu.ufersa.sys_scholar.api.mappers.DiretorMapper;
 import lombok.AllArgsConstructor;
 
@@ -16,7 +20,7 @@ import lombok.AllArgsConstructor;
 public class DiretorService {
 
   private DiretorRepository diretorRepository;
-
+  private UsuarioRepository usuarioRepository;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   public List<DiretorDTO> getDiretores() {
@@ -29,6 +33,18 @@ public class DiretorService {
     Diretor diretor = diretorRepository.findById(id).get();
 
     return DiretorMapper.INSTANCE.diretorToDiretorDTO(diretor);
+  }
+
+  public DiretorDTO getDiretorByUsuario(String value) {
+    Optional<Usuario> usuario = usuarioRepository.findByValue(value);
+
+    if (!usuario.isPresent()) {
+      // Tratar
+    }
+
+    Optional<Diretor> diretor = diretorRepository.findByUsuarioId(usuario.get().getId());
+
+    return DiretorMapper.INSTANCE.diretorToDiretorDTO(diretor.get());
   }
 
   public DiretorDTO saveDiretor(DiretorDTO diretorDTO) {
@@ -63,6 +79,25 @@ public class DiretorService {
 
   public void deleteDiretor(Long id) {
     diretorRepository.deleteById(id);
+  }
+
+  public DiretorDTO registerAluno(DiretorDTO diretorDTO) {
+
+    if (diretorDTO.getSenha() != null) {
+      diretorDTO.setSenha(bCryptPasswordEncoder.encode(diretorDTO.getSenha()));
+    }
+
+    Optional<Diretor> diretor = diretorRepository.findByCodigoId(diretorDTO.getCodigo());
+
+    if (!diretor.isPresent()) {
+      // tratar
+    }
+
+    DiretorMapper.INSTANCE.updateDiretorFromDiretorDTO(diretorDTO, diretor.get());
+
+    Diretor newDiretor = diretorRepository.save(diretor.get());
+
+    return DiretorMapper.INSTANCE.diretorToDiretorDTO(newDiretor);
   }
 
 }

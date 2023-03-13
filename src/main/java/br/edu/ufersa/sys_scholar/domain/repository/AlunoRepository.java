@@ -10,4 +10,6 @@ public interface AlunoRepository extends CrudRepository<Aluno, Long> {
 
     public Optional<Aluno> findByUsuarioId(Long codigo);
 
+    public Optional<Aluno> findByCodigoId(Long codigo);
+
 }

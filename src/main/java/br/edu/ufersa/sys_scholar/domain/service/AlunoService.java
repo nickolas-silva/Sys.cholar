@@ -10,8 +10,9 @@ import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapper;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
+import br.edu.ufersa.sys_scholar.domain.entity.Usuario;
 import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
-import br.edu.ufersa.sys_scholar.domain.repository.NotaRepository;
+import br.edu.ufersa.sys_scholar.domain.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -23,7 +24,7 @@ public class AlunoService {
     // Delete
 
     private AlunoRepository alunoRepository;
-    private NotaRepository notaRepository;
+    private UsuarioRepository usuarioRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<AlunoDTO> getAlunos() {
@@ -42,12 +43,14 @@ public class AlunoService {
         return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno.get());
     }
 
-    public AlunoDTO getAlunoByUsuario(String usuario) {
-        Optional<Aluno> aluno = alunoRepository.findByUsuarioId(10L);
+    public AlunoDTO getAlunoByUsuario(String value) {
+        Optional<Usuario> usuario = usuarioRepository.findByValue(value);
 
-        if (!aluno.isPresent()) {
+        if (!usuario.isPresent()) {
             // Tratar
         }
+
+        Optional<Aluno> aluno = alunoRepository.findByUsuarioId(usuario.get().getId());
 
         return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno.get());
     }
@@ -96,12 +99,16 @@ public class AlunoService {
             alunoDTO.setSenha(bCryptPasswordEncoder.encode(alunoDTO.getSenha()));
         }
 
-        Aluno aluno = alunoRepository.findByUsuarioId(alunoDTO.getCodigo()).get();
+        Optional<Aluno> aluno = alunoRepository.findByCodigoId(alunoDTO.getCodigo());
 
-        AlunoMapper.INSTANCE.updateAlunoFromAlunoDTO(alunoDTO, aluno);
+        if (!aluno.isPresent()) {
+            // tratar
+        }
 
-        alunoRepository.save(aluno);
+        AlunoMapper.INSTANCE.updateAlunoFromAlunoDTO(alunoDTO, aluno.get());
 
-        return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno);
+        Aluno newAluno = alunoRepository.save(aluno.get());
+
+        return AlunoMapper.INSTANCE.alunoToAlunoDTO(newAluno);
     }
 }

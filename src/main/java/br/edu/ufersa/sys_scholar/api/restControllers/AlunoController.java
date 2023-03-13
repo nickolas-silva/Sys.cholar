@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
+import br.edu.ufersa.sys_scholar.domain.entity.Usuario;
 import br.edu.ufersa.sys_scholar.domain.service.AlunoService;
 import lombok.AllArgsConstructor;
 
@@ -37,12 +38,26 @@ public class AlunoController {
 
     @RequestMapping(value = { "/{id}", "" }, method = RequestMethod.DELETE)
     public ResponseEntity<HttpStatus> deleteAluno(@PathVariable Optional<Long> id) {
-        alunoService.deleteAluno(id.get());
+        UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (userDTO.isDiretor()) {
+            alunoService.deleteAluno(id.get());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        AlunoDTO alunoDTO = alunoService.getAlunoByUsuario(userDTO.getUsuario());
+        alunoService.deleteAluno(alunoDTO.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping
     public ResponseEntity<AlunoDTO> updateAluno(@RequestBody AlunoDTO alunoDTO) {
+        UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (alunoDTO.getUsuario() != userDTO.getUsuario()) {
+            return new ResponseEntity<>(new AlunoDTO(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        }
+
         return new ResponseEntity<>(alunoService.updateAluno(alunoDTO), HttpStatus.OK);
     }
 

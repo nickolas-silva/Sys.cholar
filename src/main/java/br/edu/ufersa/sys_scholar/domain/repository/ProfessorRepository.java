@@ -8,4 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ProfessorRepository extends CrudRepository<Professor, Long> {
     public Optional<Professor> findByUsuarioId(Long usuario);
+
+    public Optional<Professor> findByCodigoId(Long codigo);
+
 }
