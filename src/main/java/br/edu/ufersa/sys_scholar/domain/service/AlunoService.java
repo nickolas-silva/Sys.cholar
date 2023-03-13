@@ -77,7 +77,9 @@ public class AlunoService {
 
     public AlunoDTO updateAluno(AlunoDTO alunoDTO) {
 
-        alunoDTO.setSenha(bCryptPasswordEncoder.encode(alunoDTO.getSenha()));
+        if (alunoDTO.getSenha() != null) {
+            alunoDTO.setSenha(bCryptPasswordEncoder.encode(alunoDTO.getSenha()));
+        }
 
         Aluno aluno = alunoRepository.findById(alunoDTO.getId()).get();
 

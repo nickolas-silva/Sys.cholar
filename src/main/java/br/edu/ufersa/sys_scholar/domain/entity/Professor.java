@@ -35,7 +35,11 @@ public class Professor {
 
   private String nome;
   private Integer cpf;
-  private String usuario;
+
+  @OneToOne(optional = false, cascade = CascadeType.ALL)
+  @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+  private Usuario usuario;
+
   private String senha;
 
   @OneToOne(optional = false, cascade = CascadeType.ALL)

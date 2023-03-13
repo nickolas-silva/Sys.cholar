@@ -41,8 +41,12 @@ public class Aluno {
     @Column(unique = true)
     private Integer cpf;
 
-    @Column(unique = true)
-    private String usuario;
+    // @Column(unique = true)
+    // private String usuario;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    private Usuario usuario;
 
     private String senha;
 

@@ -48,7 +48,9 @@ public class DiretorService {
 
   public DiretorDTO updateDiretor(DiretorDTO diretorDTO) {
 
-    diretorDTO.setSenha(bCryptPasswordEncoder.encode(diretorDTO.getSenha()));
+    if (diretorDTO.getSenha() != null) {
+      diretorDTO.setSenha(bCryptPasswordEncoder.encode(diretorDTO.getSenha()));
+    }
 
     Diretor diretor = diretorRepository.findById(diretorDTO.getId()).get();
 

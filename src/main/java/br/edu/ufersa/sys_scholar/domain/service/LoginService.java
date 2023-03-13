@@ -34,21 +34,21 @@ public class LoginService {
 
         if (diretor.isPresent()) {
             Diretor findDiretor = diretor.get();
-            return createUserDTO(findDiretor.getUsuario(), findDiretor.getSenha(), "diretor");
+            return createUserDTO(findDiretor.getUsuario().getValue(), findDiretor.getSenha(), "diretor");
         }
 
         Optional<Professor> professor = professorRepository.findByUsuario(usuario);
 
         if (professor.isPresent()) {
             Professor findProfessor = professor.get();
-            return createUserDTO(findProfessor.getUsuario(), findProfessor.getSenha(), "professor");
+            return createUserDTO(findProfessor.getUsuario().getValue(), findProfessor.getSenha(), "professor");
         }
 
         Optional<Aluno> aluno = alunoRepository.findByUsuario(usuario);
 
         if (aluno.isPresent()) {
             Aluno findAluno = aluno.get();
-            return createUserDTO(findAluno.getUsuario(), findAluno.getSenha(), "aluno");
+            return createUserDTO(findAluno.getUsuario().getValue(), findAluno.getSenha(), "aluno");
         }
 
         return null;

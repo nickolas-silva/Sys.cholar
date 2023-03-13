@@ -17,6 +17,7 @@ import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Disciplina;
 import br.edu.ufersa.sys_scholar.domain.entity.Nota;
 import br.edu.ufersa.sys_scholar.domain.entity.Professor;
+import br.edu.ufersa.sys_scholar.domain.entity.Usuario;
 
 @Mapper
 public interface DisciplinaMapper {
@@ -68,6 +69,7 @@ public interface DisciplinaMapper {
         return NotaMapper.INSTANCE.NotaDisciplinaDTOsToNotas(notasDisciplinaDTOs);
     }
 
+    @Mapping(source = "professor.usuario", target = "professor.usuario", qualifiedByName = "stringToUsuario")
     @Mapping(source = "professor.codigo", target = "professor.codigo", qualifiedByName = "longToCodigo")
     @Mapping(source = "notas", target = "notas", qualifiedByName = "notaDisciplinaDTOsToNotas")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -78,6 +80,13 @@ public interface DisciplinaMapper {
         Codigo newCodigo = new Codigo();
         newCodigo.setId(codigo);
         return newCodigo;
+    }
+
+    @Named("stringToUsuario")
+    public static Usuario codigoToLong(String usuario) {
+        Usuario user = new Usuario();
+        user.setValue(usuario);
+        return user;
     }
 
 }

@@ -52,9 +52,9 @@ public class ProfessorService {
   }
 
   public ProfessorDTO updateProfessor(ProfessorDTO professorDTO) {
-
-    professorDTO.setSenha(bCryptPasswordEncoder.encode(professorDTO.getSenha()));
-
+    if (professorDTO.getSenha() != null) {
+      professorDTO.setSenha(bCryptPasswordEncoder.encode(professorDTO.getSenha()));
+    }
     Professor professor = professorRepository.findById(professorDTO.getId()).get();
 
     ProfessorMapper.INSTANCE.updateProfessorFromProfessorDTO(professorDTO, professor);
