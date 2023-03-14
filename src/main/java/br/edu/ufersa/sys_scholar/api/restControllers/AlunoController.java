@@ -53,8 +53,8 @@ public class AlunoController {
     public ResponseEntity<AlunoDTO> updateAluno(@RequestBody AlunoDTO alunoDTO) {
         UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (alunoDTO.getId() != userDTO.getId()) {
-            return new ResponseEntity<>(new AlunoDTO(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        if ((alunoDTO.getId() != userDTO.getId()) && (!userDTO.isDiretor())) {
+            return new ResponseEntity<>(null, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
         }
 
         return new ResponseEntity<>(alunoService.updateAluno(alunoDTO), HttpStatus.OK);

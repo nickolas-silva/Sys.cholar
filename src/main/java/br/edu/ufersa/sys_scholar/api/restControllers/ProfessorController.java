@@ -55,8 +55,8 @@ public class ProfessorController {
   public ResponseEntity<ProfessorDTO> updateAluno(@RequestBody ProfessorDTO professorDTO) {
     UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    if (professorDTO.getId() != userDTO.getId()) {
-      return new ResponseEntity<>(new ProfessorDTO(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    if ((professorDTO.getId() != userDTO.getId()) && (!userDTO.isDiretor())) {
+      return new ResponseEntity<>(null, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
     return new ResponseEntity<>(professorService.updateProfessor(professorDTO), HttpStatus.OK);
