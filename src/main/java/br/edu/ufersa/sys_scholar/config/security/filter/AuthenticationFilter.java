@@ -54,7 +54,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         UserDTO userDTO = (UserDTO) authResult.getDetails();
 
         Map<String, String> payload = new HashMap<>();
-        payload.put("usuario", userDTO.getUsuario());
+        payload.put("id", userDTO.getId().toString());
         payload.put("role", userDTO.getRole());
 
         String token = JWT.create()

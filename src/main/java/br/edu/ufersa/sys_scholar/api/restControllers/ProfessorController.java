@@ -1,15 +1,20 @@
 package br.edu.ufersa.sys_scholar.api.restControllers;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDTO;
+import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
 import br.edu.ufersa.sys_scholar.domain.repository.ProfessorRepository;
 import br.edu.ufersa.sys_scholar.domain.service.ProfessorService;
 import lombok.AllArgsConstructor;
@@ -21,28 +26,39 @@ public class ProfessorController {
   ProfessorService professorService;
   ProfessorRepository professorRepository;
 
-  // @PostMapping
-  // public ResponseEntity<ProfessorDTO> saveProfessor(@RequestBody ProfessorDTO
-  // professor) {
-  // return new ResponseEntity<>(professorService.saveProfessor(professor),
-  // HttpStatus.OK);
-  // }
+  @RequestMapping(value = { "/{id}", "" }, method = RequestMethod.GET)
+  public ResponseEntity<ProfessorDTO> getAluno(@PathVariable Optional<Long> id) {
+    UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-  @GetMapping("/{id}")
-  public ResponseEntity<ProfessorDTO> getProfessor(@PathVariable Long id) {
-    System.out.println(id);
-    return new ResponseEntity<>(professorService.getProfessor(id),
-        HttpStatus.OK);
+    if (userDTO.isDiretor()) {
+      return new ResponseEntity<>(professorService.getProfessor(id.get()), HttpStatus.OK);
+
+    }
+    return new ResponseEntity<>(professorService.getProfessor(userDTO.getId()), HttpStatus.OK);
+
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<HttpStatus> deleteProfessor(@PathVariable Long id) {
-    professorService.deleteProfessor(id);
+  @RequestMapping(value = { "/{id}", "" }, method = RequestMethod.DELETE)
+  public ResponseEntity<HttpStatus> deleteAluno(@PathVariable Optional<Long> id) {
+    UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    if (userDTO.isDiretor()) {
+      professorService.deleteProfessor(id.get());
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    professorService.deleteProfessor(userDTO.getId());
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @PatchMapping
-  public ResponseEntity<ProfessorDTO> updateProfessor(@RequestBody ProfessorDTO professorDTO) {
+  public ResponseEntity<ProfessorDTO> updateAluno(@RequestBody ProfessorDTO professorDTO) {
+    UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    if (professorDTO.getId() != userDTO.getId()) {
+      return new ResponseEntity<>(new ProfessorDTO(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    }
+
     return new ResponseEntity<>(professorService.updateProfessor(professorDTO), HttpStatus.OK);
   }
 

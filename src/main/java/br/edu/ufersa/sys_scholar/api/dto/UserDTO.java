@@ -9,6 +9,7 @@ public class UserDTO {
     private String usuario;
     private String senha;
     private String role;
+    private Long id;
 
     public Boolean isDiretor() {
         return this.role.equals("diretor");

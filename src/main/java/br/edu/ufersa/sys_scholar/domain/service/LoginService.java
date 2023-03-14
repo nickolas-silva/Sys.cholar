@@ -23,11 +23,12 @@ public class LoginService {
     DiretorRepository diretorRepository;
     UsuarioRepository usuarioRepository;
 
-    private UserDTO createUserDTO(String usuario, String senha, String role) {
+    private UserDTO createUserDTO(Long id, String usuario, String senha, String role) {
         UserDTO userDTO = new UserDTO();
         userDTO.setSenha(senha);
         userDTO.setUsuario(usuario);
         userDTO.setRole(role);
+        userDTO.setId(id);
         return userDTO;
     }
 
@@ -45,21 +46,23 @@ public class LoginService {
 
         if (diretor.isPresent()) {
             Diretor findDiretor = diretor.get();
-            return createUserDTO(findDiretor.getUsuario().getValue(), findDiretor.getSenha(), "diretor");
+            return createUserDTO(findDiretor.getId(), findDiretor.getUsuario().getValue(), findDiretor.getSenha(),
+                    "diretor");
         }
 
         Optional<Professor> professor = professorRepository.findByUsuarioId(usuarioId);
 
         if (professor.isPresent()) {
             Professor findProfessor = professor.get();
-            return createUserDTO(findProfessor.getUsuario().getValue(), findProfessor.getSenha(), "professor");
+            return createUserDTO(findProfessor.getId(), findProfessor.getUsuario().getValue(), findProfessor.getSenha(),
+                    "professor");
         }
 
         Optional<Aluno> aluno = alunoRepository.findByUsuarioId(usuarioId);
 
         if (aluno.isPresent()) {
             Aluno findAluno = aluno.get();
-            return createUserDTO(findAluno.getUsuario().getValue(), findAluno.getSenha(), "aluno");
+            return createUserDTO(findAluno.getId(), findAluno.getUsuario().getValue(), findAluno.getSenha(), "aluno");
         }
 
         return null;

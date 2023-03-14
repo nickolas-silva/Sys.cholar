@@ -32,7 +32,7 @@ public class AlunoController {
             return new ResponseEntity<>(alunoService.getAluno(id.get()), HttpStatus.OK);
 
         }
-        return new ResponseEntity<>(alunoService.getAlunoByUsuario(userDTO.getUsuario()), HttpStatus.OK);
+        return new ResponseEntity<>(alunoService.getAluno(userDTO.getId()), HttpStatus.OK);
 
     }
 
@@ -45,8 +45,7 @@ public class AlunoController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        AlunoDTO alunoDTO = alunoService.getAlunoByUsuario(userDTO.getUsuario());
-        alunoService.deleteAluno(alunoDTO.getId());
+        alunoService.deleteAluno(userDTO.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -54,7 +53,7 @@ public class AlunoController {
     public ResponseEntity<AlunoDTO> updateAluno(@RequestBody AlunoDTO alunoDTO) {
         UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (alunoDTO.getUsuario() != userDTO.getUsuario()) {
+        if (alunoDTO.getId() != userDTO.getId()) {
             return new ResponseEntity<>(new AlunoDTO(), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
         }
 
