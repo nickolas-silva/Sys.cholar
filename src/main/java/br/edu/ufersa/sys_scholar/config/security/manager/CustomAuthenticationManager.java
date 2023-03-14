@@ -33,7 +33,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         }
 
         if (!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), userDTO.getSenha())) {
-            throw new BadCredentialsException("You provided an incorrect password.");
+            throw new BadCredentialsException("Senha incorreta.");
         }
 
         userDTO.setSenha(null);
