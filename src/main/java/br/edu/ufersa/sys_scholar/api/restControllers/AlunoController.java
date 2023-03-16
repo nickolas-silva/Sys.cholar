@@ -2,6 +2,8 @@ package br.edu.ufersa.sys_scholar.api.restControllers;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
-import br.edu.ufersa.sys_scholar.domain.entity.Usuario;
 import br.edu.ufersa.sys_scholar.domain.service.AlunoService;
 import lombok.AllArgsConstructor;
 
@@ -30,8 +31,8 @@ public class AlunoController {
 
         if (userDTO.isDiretor()) {
             return new ResponseEntity<>(alunoService.getAluno(id.get()), HttpStatus.OK);
-
         }
+
         return new ResponseEntity<>(alunoService.getAluno(userDTO.getId()), HttpStatus.OK);
 
     }

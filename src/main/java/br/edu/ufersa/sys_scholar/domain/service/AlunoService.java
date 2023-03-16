@@ -1,7 +1,10 @@
 package br.edu.ufersa.sys_scholar.domain.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,7 +40,7 @@ public class AlunoService {
         Optional<Aluno> aluno = alunoRepository.findById(id);
 
         if (!aluno.isPresent()) {
-            // Tratar
+            throw new EntityNotFoundException("Aluno");
         }
 
         return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno.get());
