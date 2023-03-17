@@ -1,14 +1,11 @@
 package br.edu.ufersa.sys_scholar.domain.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
+import br.edu.ufersa.sys_scholar.api.exception.EntityNotExistsException;
 import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapper;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
@@ -40,7 +37,7 @@ public class AlunoService {
         Optional<Aluno> aluno = alunoRepository.findById(id);
 
         if (!aluno.isPresent()) {
-            throw new EntityNotFoundException("Aluno");
+            throw new EntityNotExistsException("Aluno");
         }
 
         return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno.get());
@@ -50,7 +47,7 @@ public class AlunoService {
         Optional<Usuario> usuario = usuarioRepository.findByValue(value);
 
         if (!usuario.isPresent()) {
-            // Tratar
+
         }
 
         Optional<Aluno> aluno = alunoRepository.findByUsuarioId(usuario.get().getId());
