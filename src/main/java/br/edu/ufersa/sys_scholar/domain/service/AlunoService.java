@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.exception.EntityNotExistsException;
+import br.edu.ufersa.sys_scholar.api.exception.InvalidPasswordException;
 import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapper;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
@@ -47,7 +48,7 @@ public class AlunoService {
         Optional<Usuario> usuario = usuarioRepository.findByValue(value);
 
         if (!usuario.isPresent()) {
-
+            throw new EntityNotExistsException("Aluno");
         }
 
         Optional<Aluno> aluno = alunoRepository.findByUsuarioId(usuario.get().getId());
@@ -102,7 +103,7 @@ public class AlunoService {
         Optional<Aluno> aluno = alunoRepository.findByCodigoId(alunoDTO.getCodigo());
 
         if (!aluno.isPresent()) {
-            // tratar
+            throw new EntityNotExistsException("Código de matrícula");
         }
 
         AlunoMapper.INSTANCE.updateAlunoFromAlunoDTO(alunoDTO, aluno.get());
