@@ -2,6 +2,9 @@ package br.edu.ufersa.sys_scholar.api.exception;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+
+import javax.validation.constraints.Null;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,7 +24,31 @@ public class ApiExceptionHandler {
                 badRequest,
                 ZonedDateTime.now(ZoneId.of("Z")));
 
-        System.out.println(e.getMessage());
+        return new ResponseEntity<>(apiException, badRequest);
+    }
+
+    @ExceptionHandler(value = { UserRegistredException.class })
+    public ResponseEntity<Object> handleApiRequestException(UserRegistredException e) {
+
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                badRequest,
+                ZonedDateTime.now(ZoneId.of("Z")));
+
+        return new ResponseEntity<>(apiException, badRequest);
+    }
+
+    @ExceptionHandler(value = { NullFieldsException.class })
+    public ResponseEntity<Object> handleApiRequestException(NullFieldsException e) {
+
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                badRequest,
+                ZonedDateTime.now(ZoneId.of("Z")));
 
         return new ResponseEntity<>(apiException, badRequest);
     }
@@ -41,8 +68,6 @@ public class ApiExceptionHandler {
                 message,
                 badRequest,
                 ZonedDateTime.now(ZoneId.of("Z")));
-
-        System.out.println(e.getMessage());
 
         return new ResponseEntity<>(apiException, badRequest);
     }

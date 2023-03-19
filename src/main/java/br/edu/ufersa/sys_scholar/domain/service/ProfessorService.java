@@ -32,23 +32,17 @@ public class ProfessorService {
 
   }
 
-  public ProfessorDTO saveProfessor(ProfessorDTO professorDTO) {
+  public ProfessorDTO createProfessor() {
 
-    if (professorDTO == null) {
-      professorDTO = new ProfessorDTO();
-    }
+    final Professor aluno = new Aluno();
 
-    Professor professor = ProfessorMapper.INSTANCE.professorDTOToProfessor(professorDTO);
+    Professor.setEndereco(new Endereco());
 
-    if (professor.getEndereco() == null) {
-      professor.setEndereco(new Endereco());
-    }
-    professor.setCodigo(new Codigo());
+    Professor.setCodigo(new Codigo());
 
-    Professor newProfessor = professorRepository.save(professor);
+    final Professor newProfessor = professorRepository.save(aluno);
 
     return ProfessorMapper.INSTANCE.professorToProfessorDTO(newProfessor);
-
   }
 
   public void deleteProfessor(Long id) {

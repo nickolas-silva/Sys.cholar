@@ -63,7 +63,7 @@ public class DiretorController {
 
     @GetMapping("/create/aluno")
     public ResponseEntity<AlunoDTO> createAluno() {
-        return new ResponseEntity<>(alunoService.saveAluno(null), HttpStatus.CREATED);
+        return new ResponseEntity<>(alunoService.createAluno(), HttpStatus.CREATED);
     }
 
     @GetMapping("professor")
@@ -73,7 +73,7 @@ public class DiretorController {
 
     @GetMapping("/create/professor")
     public ResponseEntity<ProfessorDTO> createProfessor() {
-        return new ResponseEntity<>(professorService.saveProfessor(null),
+        return new ResponseEntity<>(professorService.createProfessor(),
                 HttpStatus.OK);
     }
 
