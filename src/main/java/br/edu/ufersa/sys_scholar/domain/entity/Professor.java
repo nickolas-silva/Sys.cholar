@@ -34,7 +34,7 @@ public class Professor {
   private Codigo codigo;
 
   private String nome;
-  private Integer cpf;
+  private Long cpf;
 
   @OneToOne(optional = false, cascade = CascadeType.ALL)
   @JoinColumn(name = "usuario_id", referencedColumnName = "id")

@@ -2,6 +2,8 @@ package br.edu.ufersa.sys_scholar.api.restControllers;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,7 +52,7 @@ public class ProfessorController {
   }
 
   @PatchMapping
-  public ResponseEntity<ProfessorDTO> updateAluno(@RequestBody ProfessorDTO professorDTO) {
+  public ResponseEntity<ProfessorDTO> updateAluno(@Valid @RequestBody ProfessorDTO professorDTO) {
     UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     if ((professorDTO.getId() != userDTO.getId()) && (!userDTO.isDiretor())) {

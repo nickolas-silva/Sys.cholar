@@ -1,5 +1,7 @@
 package br.edu.ufersa.sys_scholar.api.restControllers;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,14 +26,14 @@ public class RegisterController {
     // Procurar por codigo
 
     @PostMapping("/aluno")
-    public ResponseEntity<AlunoDTO> registerAluno(@RequestBody AlunoDTO alunoDTO) {
+    public ResponseEntity<AlunoDTO> registerAluno(@Valid @RequestBody AlunoDTO alunoDTO) {
         return new ResponseEntity<>(alunoService.registerAluno(alunoDTO),
                 HttpStatus.CREATED);
 
     }
 
     @PostMapping("/professor")
-    public ResponseEntity<ProfessorDTO> registerProfessor(@RequestBody ProfessorDTO professorDTO) {
+    public ResponseEntity<ProfessorDTO> registerProfessor(@Valid @RequestBody ProfessorDTO professorDTO) {
         return new ResponseEntity<>(professorService.registerProfessor(professorDTO), HttpStatus.CREATED);
     }
 }

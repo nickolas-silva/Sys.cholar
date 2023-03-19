@@ -1,6 +1,9 @@
 package br.edu.ufersa.sys_scholar.api.restControllers;
 
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,7 +52,7 @@ public class DiretorController {
     }
 
     @PatchMapping
-    public ResponseEntity<DiretorDTO> updateDiretor(@RequestBody DiretorDTO diretorDTO) {
+    public ResponseEntity<DiretorDTO> updateDiretor(@Valid @RequestBody DiretorDTO diretorDTO) {
         return new ResponseEntity<>(diretorService.updateDiretor(diretorDTO), HttpStatus.OK);
     }
 

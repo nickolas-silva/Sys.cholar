@@ -33,7 +33,7 @@ public class Diretor {
     private String nome;
 
     @Column(unique = true)
-    private Integer cpf;
+    private Long cpf;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")

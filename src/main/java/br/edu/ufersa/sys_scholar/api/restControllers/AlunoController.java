@@ -3,6 +3,7 @@ package br.edu.ufersa.sys_scholar.api.restControllers;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class AlunoController {
     }
 
     @PatchMapping
-    public ResponseEntity<AlunoDTO> updateAluno(@RequestBody AlunoDTO alunoDTO) {
+    public ResponseEntity<AlunoDTO> updateAluno(@Valid @RequestBody AlunoDTO alunoDTO) {
         UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if ((alunoDTO.getId() != userDTO.getId()) && (!userDTO.isDiretor())) {
