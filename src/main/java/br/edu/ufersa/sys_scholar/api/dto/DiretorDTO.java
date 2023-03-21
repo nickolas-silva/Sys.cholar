@@ -15,9 +15,9 @@ public class DiretorDTO {
     private Long id;
     private Long codigo;
     private String nome;
-    private Long cpf;
     @Min(value = 10000000000L, message = "CPF Inválido")
     @Max(value = 99999999999L, message = "CPF Inválido")
+    private Long cpf;
     private String usuario;
     @Size(min = 8, max = 64, message = "Senha inválida!")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

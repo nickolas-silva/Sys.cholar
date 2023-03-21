@@ -29,6 +29,7 @@ public class SecurityConfig {
 
                 .antMatchers(HttpMethod.POST, SecurityConstants.ALUNO_REGISTER_PATH).permitAll()
                 .antMatchers(HttpMethod.POST, SecurityConstants.PROFESSOR_REGISTER_PATH).permitAll()
+                .antMatchers(HttpMethod.POST, SecurityConstants.DIRETOR_REGISTER_PATH).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 // .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)

@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
+import br.edu.ufersa.sys_scholar.api.dto.DiretorDTO;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDTO;
 import br.edu.ufersa.sys_scholar.domain.service.AlunoService;
+import br.edu.ufersa.sys_scholar.domain.service.DiretorService;
 import br.edu.ufersa.sys_scholar.domain.service.ProfessorService;
 import lombok.AllArgsConstructor;
 
@@ -20,8 +22,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RegisterController {
 
-    AlunoService alunoService;
-    ProfessorService professorService;
+    private AlunoService alunoService;
+    private ProfessorService professorService;
+    private DiretorService diretorService;
 
     // Procurar por codigo
 
@@ -35,6 +38,12 @@ public class RegisterController {
     @PostMapping("/professor")
     public ResponseEntity<ProfessorDTO> registerProfessor(@Valid @RequestBody ProfessorDTO professorDTO) {
         return new ResponseEntity<>(professorService.registerProfessor(professorDTO),
+                HttpStatus.CREATED);
+    }
+
+    @PostMapping("/diretor")
+    public ResponseEntity<DiretorDTO> registerDiretor(@Valid @RequestBody DiretorDTO diretorDTO) {
+        return new ResponseEntity<>(diretorService.registerDiretor(diretorDTO),
                 HttpStatus.CREATED);
     }
 }

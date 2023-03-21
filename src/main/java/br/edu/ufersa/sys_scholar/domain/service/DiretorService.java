@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 import br.edu.ufersa.sys_scholar.api.dto.DiretorDTO;
+import br.edu.ufersa.sys_scholar.api.exception.EntityNotExistsException;
+import br.edu.ufersa.sys_scholar.api.exception.NullFieldsException;
+import br.edu.ufersa.sys_scholar.api.exception.UserRegistredException;
 import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Diretor;
 import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
@@ -31,16 +34,20 @@ public class DiretorService {
   }
 
   public DiretorDTO getDiretor(Long id) {
-    Diretor diretor = diretorRepository.findById(id).get();
+    Optional<Diretor> diretor = diretorRepository.findById(id);
 
-    return DiretorMapper.INSTANCE.diretorToDiretorDTO(diretor);
+    if (!diretor.isPresent()) {
+      throw new EntityNotExistsException("Diretor");
+    }
+
+    return DiretorMapper.INSTANCE.diretorToDiretorDTO(diretor.get());
   }
 
   public DiretorDTO getDiretorByUsuario(String value) {
     Optional<Usuario> usuario = usuarioRepository.findByValue(value);
 
     if (!usuario.isPresent()) {
-      // Tratar
+      throw new EntityNotExistsException("Diretor");
     }
 
     Optional<Diretor> diretor = diretorRepository.findByUsuarioId(usuario.get().getId());
@@ -53,6 +60,7 @@ public class DiretorService {
     final Diretor diretor = new Diretor();
 
     diretor.setCodigo(new Codigo());
+    diretor.setUsuario(new Usuario());
 
     final Diretor newDiretor = diretorRepository.save(diretor);
 
@@ -78,21 +86,41 @@ public class DiretorService {
     diretorRepository.deleteById(id);
   }
 
-  public DiretorDTO registerAluno(DiretorDTO diretorDTO) {
+  public DiretorDTO registerDiretor(final DiretorDTO diretorDTO) {
+
+    if (diretorDTO.getNome() == null ||
+        diretorDTO.getCpf() == null ||
+        diretorDTO.getUsuario() == null ||
+        diretorDTO.getSenha() == null
+
+    ) {
+      throw new NullFieldsException();
+    }
 
     if (diretorDTO.getSenha() != null) {
       diretorDTO.setSenha(bCryptPasswordEncoder.encode(diretorDTO.getSenha()));
     }
 
-    Optional<Diretor> diretor = diretorRepository.findByCodigoId(diretorDTO.getCodigo());
+    final Optional<Diretor> diretor = diretorRepository.findByCodigoId(diretorDTO.getCodigo());
 
     if (!diretor.isPresent()) {
-      // tratar
+      throw new EntityNotExistsException("Código de matrícula");
+    }
+
+    final Diretor diretorValidate = diretor.get();
+
+    if (diretorValidate.getNome() != null ||
+        diretorValidate.getCpf() != null ||
+        diretorValidate.getUsuario().getValue() != null ||
+        diretorValidate.getSenha() != null
+
+    ) {
+      throw new UserRegistredException();
     }
 
     DiretorMapper.INSTANCE.updateDiretorFromDiretorDTO(diretorDTO, diretor.get());
 
-    Diretor newDiretor = diretorRepository.save(diretor.get());
+    final Diretor newDiretor = diretorRepository.save(diretor.get());
 
     return DiretorMapper.INSTANCE.diretorToDiretorDTO(newDiretor);
   }
