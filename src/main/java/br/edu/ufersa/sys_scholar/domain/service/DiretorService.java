@@ -9,6 +9,7 @@ import java.util.Optional;
 import br.edu.ufersa.sys_scholar.api.dto.DiretorDTO;
 import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Diretor;
+import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
 import br.edu.ufersa.sys_scholar.domain.entity.Usuario;
 import br.edu.ufersa.sys_scholar.domain.repository.DiretorRepository;
 import br.edu.ufersa.sys_scholar.domain.repository.UsuarioRepository;
@@ -47,17 +48,13 @@ public class DiretorService {
     return DiretorMapper.INSTANCE.diretorToDiretorDTO(diretor.get());
   }
 
-  public DiretorDTO saveDiretor(DiretorDTO diretorDTO) {
+  public DiretorDTO createDiretor() {
 
-    if (diretorDTO == null) {
-      diretorDTO = new DiretorDTO();
-    }
-
-    Diretor diretor = DiretorMapper.INSTANCE.diretorDTOToDiretor(diretorDTO);
+    final Diretor diretor = new Diretor();
 
     diretor.setCodigo(new Codigo());
 
-    Diretor newDiretor = diretorRepository.save(diretor);
+    final Diretor newDiretor = diretorRepository.save(diretor);
 
     return DiretorMapper.INSTANCE.diretorToDiretorDTO(newDiretor);
   }

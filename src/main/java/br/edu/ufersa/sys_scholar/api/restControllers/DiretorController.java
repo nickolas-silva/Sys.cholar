@@ -42,7 +42,7 @@ public class DiretorController {
 
     @GetMapping("/create")
     public ResponseEntity<DiretorDTO> createDiretor() {
-        return new ResponseEntity<>(diretorService.saveDiretor(null), HttpStatus.CREATED);
+        return new ResponseEntity<>(diretorService.createDiretor(), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

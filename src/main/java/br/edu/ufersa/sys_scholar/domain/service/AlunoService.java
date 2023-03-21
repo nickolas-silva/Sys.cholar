@@ -63,9 +63,11 @@ public class AlunoService {
 
         Aluno aluno = new Aluno();
 
-        aluno.setEndereco(new Endereco();
+        aluno.setEndereco(new Endereco());
 
         aluno.setCodigo(new Codigo());
+
+        aluno.setUsuario(new Usuario());
 
         Aluno newAluno = alunoRepository.save(aluno);
 
@@ -91,7 +93,7 @@ public class AlunoService {
         return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno);
     }
 
-    public AlunoDTO registerAluno(AlunoDTO alunoDTO) {
+    public AlunoDTO registerAluno(final AlunoDTO alunoDTO) {
 
         if (alunoDTO.getNome() == null ||
                 alunoDTO.getCpf() == null ||
@@ -109,7 +111,7 @@ public class AlunoService {
             alunoDTO.setSenha(bCryptPasswordEncoder.encode(alunoDTO.getSenha()));
         }
 
-        Optional<Aluno> aluno = alunoRepository.findByCodigoId(alunoDTO.getCodigo());
+        final Optional<Aluno> aluno = alunoRepository.findByCodigoId(alunoDTO.getCodigo());
 
         if (!aluno.isPresent()) {
             throw new EntityNotExistsException("Código de matrícula");
@@ -119,7 +121,7 @@ public class AlunoService {
 
         if (alunoValidate.getNome() != null ||
                 alunoValidate.getCpf() != null ||
-                alunoValidate.getUsuario() != null ||
+                alunoValidate.getUsuario().getValue() != null ||
                 alunoValidate.getSenha() != null ||
                 alunoValidate.getEndereco().getCidade() != null ||
                 alunoValidate.getEndereco().getBairro() != null ||
@@ -131,7 +133,7 @@ public class AlunoService {
 
         AlunoMapper.INSTANCE.updateAlunoFromAlunoDTO(alunoDTO, aluno.get());
 
-        Aluno newAluno = alunoRepository.save(aluno.get());
+        final Aluno newAluno = alunoRepository.save(aluno.get());
 
         return AlunoMapper.INSTANCE.alunoToAlunoDTO(newAluno);
     }

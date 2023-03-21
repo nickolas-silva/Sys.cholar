@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDTO;
+import br.edu.ufersa.sys_scholar.api.exception.EntityNotExistsException;
+import br.edu.ufersa.sys_scholar.api.exception.NullFieldsException;
+import br.edu.ufersa.sys_scholar.api.exception.UserRegistredException;
 import br.edu.ufersa.sys_scholar.api.mappers.ProfessorMapper;
 import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
@@ -34,13 +37,15 @@ public class ProfessorService {
 
   public ProfessorDTO createProfessor() {
 
-    final Professor aluno = new Aluno();
+    final Professor professor = new Professor();
 
-    Professor.setEndereco(new Endereco());
+    professor.setEndereco(new Endereco());
 
-    Professor.setCodigo(new Codigo());
+    professor.setCodigo(new Codigo());
 
-    final Professor newProfessor = professorRepository.save(aluno);
+    professor.setUsuario(new Usuario());
+
+    final Professor newProfessor = professorRepository.save(professor);
 
     return ProfessorMapper.INSTANCE.professorToProfessorDTO(newProfessor);
   }
@@ -49,7 +54,7 @@ public class ProfessorService {
     professorRepository.deleteById(id);
   }
 
-  public ProfessorDTO updateProfessor(ProfessorDTO professorDTO) {
+  public ProfessorDTO updateProfessor(final ProfessorDTO professorDTO) {
     if (professorDTO.getSenha() != null) {
       professorDTO.setSenha(bCryptPasswordEncoder.encode(professorDTO.getSenha()));
     }
@@ -66,7 +71,7 @@ public class ProfessorService {
     Optional<Professor> professor = professorRepository.findById(id);
 
     if (!professor.isPresent()) {
-      //
+      throw new EntityNotExistsException("Professor");
     }
 
     return ProfessorMapper.INSTANCE.professorToProfessorDTO(professor.get());
@@ -76,26 +81,56 @@ public class ProfessorService {
     Optional<Usuario> usuario = usuarioRepository.findByValue(value);
 
     if (!usuario.isPresent()) {
-      // Tratar
+      throw new EntityNotExistsException("Professor");
     }
 
-    Optional<Professor> aluno = professorRepository.findByUsuarioId(usuario.get().getId());
+    Optional<Professor> professor = professorRepository.findByUsuarioId(usuario.get().getId());
 
-    return ProfessorMapper.INSTANCE.professorToProfessorDTO(aluno.get());
+    return ProfessorMapper.INSTANCE.professorToProfessorDTO(professor.get());
   }
 
-  public ProfessorDTO registerProfessor(ProfessorDTO professorDTO) {
+  public ProfessorDTO registerProfessor(final ProfessorDTO professorDTO) {
 
-    if (professorDTO.getSenha() != null) {
-      professorDTO.setSenha(bCryptPasswordEncoder.encode(professorDTO.getSenha()));
+    if (professorDTO.getNome() == null ||
+        professorDTO.getCpf() == null ||
+        professorDTO.getUsuario() == null ||
+        professorDTO.getSenha() == null ||
+        professorDTO.getEndereco().getCidade() == null ||
+        professorDTO.getEndereco().getBairro() == null ||
+        professorDTO.getEndereco().getNumero() == null
+
+    ) {
+      throw new NullFieldsException();
     }
 
-    Optional<Professor> professor = professorRepository.findByCodigoId(professorDTO.getCodigo());
+    professorDTO.setSenha(bCryptPasswordEncoder.encode(professorDTO.getSenha()));
 
-    ProfessorMapper.INSTANCE.updateProfessorFromProfessorDTO(professorDTO, professor.get());
+    final Optional<Professor> professor = professorRepository.findByCodigoId(professorDTO.getCodigo());
 
-    Professor newProfessor = professorRepository.save(professor.get());
+    if (!professor.isPresent()) {
+      throw new EntityNotExistsException("Código de matrícula");
+    }
+
+    final Professor professorValidate = professor.get();
+
+    if (professorValidate.getNome() != null ||
+        professorValidate.getCpf() != null ||
+        professorValidate.getUsuario().getValue() != null ||
+        professorValidate.getSenha() != null ||
+        professorValidate.getEndereco().getCidade() != null ||
+        professorValidate.getEndereco().getBairro() != null ||
+        professorValidate.getEndereco().getNumero() != null
+
+    ) {
+      throw new UserRegistredException();
+    }
+
+    ProfessorMapper.INSTANCE.updateProfessorFromProfessorDTO(professorDTO,
+        professor.get());
+
+    final Professor newProfessor = professorRepository.save(professor.get());
 
     return ProfessorMapper.INSTANCE.professorToProfessorDTO(newProfessor);
   }
+
 }

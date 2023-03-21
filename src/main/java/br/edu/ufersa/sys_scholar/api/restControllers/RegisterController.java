@@ -34,6 +34,7 @@ public class RegisterController {
 
     @PostMapping("/professor")
     public ResponseEntity<ProfessorDTO> registerProfessor(@Valid @RequestBody ProfessorDTO professorDTO) {
-        return new ResponseEntity<>(professorService.registerProfessor(professorDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(professorService.registerProfessor(professorDTO),
+                HttpStatus.CREATED);
     }
 }
