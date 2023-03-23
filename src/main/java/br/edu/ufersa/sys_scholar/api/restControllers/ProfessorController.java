@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDTO;
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
 import br.edu.ufersa.sys_scholar.api.exception.InvalidCredencialsException;
+import br.edu.ufersa.sys_scholar.api.exception.InvalidIdentifierException;
 import br.edu.ufersa.sys_scholar.domain.repository.ProfessorRepository;
 import br.edu.ufersa.sys_scholar.domain.service.ProfessorService;
 import lombok.AllArgsConstructor;
