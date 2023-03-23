@@ -21,6 +21,7 @@ import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
 import br.edu.ufersa.sys_scholar.api.exception.EntityNotExistsException;
 import br.edu.ufersa.sys_scholar.api.exception.InvalidCredencialsException;
+import br.edu.ufersa.sys_scholar.api.exception.InvalidIdentifierException;
 import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
 import br.edu.ufersa.sys_scholar.domain.service.AlunoService;
 import lombok.AllArgsConstructor;
@@ -70,10 +71,11 @@ public class AlunoController {
 
     @PatchMapping
     public ResponseEntity<AlunoDTO> updateAluno(@Valid @RequestBody AlunoDTO alunoDTO) {
-        UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if ((alunoDTO.getId() != userDTO.getId()) && (!userDTO.isDiretor())) {
-            return new ResponseEntity<>(null, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+            // return new ResponseEntity<>(null, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+            throw new InvalidIdentifierException();
         }
 
         return new ResponseEntity<>(alunoService.updateAluno(alunoDTO), HttpStatus.OK);

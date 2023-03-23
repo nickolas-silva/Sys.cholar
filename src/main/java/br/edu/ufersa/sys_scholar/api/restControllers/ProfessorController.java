@@ -69,7 +69,7 @@ public class ProfessorController {
     UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     if ((professorDTO.getId() != userDTO.getId()) && (!userDTO.isDiretor())) {
-      return new ResponseEntity<>(null, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+      throw new InvalidIdentifierException();
     }
 
     return new ResponseEntity<>(professorService.updateProfessor(professorDTO), HttpStatus.OK);
