@@ -58,8 +58,9 @@ public class AlunoController {
 
         final AlunoDTO currentAluno = alunoService.getAluno(contextUser.getId());
 
-        if (!bCryptPasswordEncoder.matches(validateUserDTO.get().getSenha(),
-                currentAluno.getSenha())) {
+        if (!validateUserDTO.isPresent() ||
+                !bCryptPasswordEncoder.matches(validateUserDTO.get().getSenha(),
+                        currentAluno.getSenha())) {
             throw new InvalidCredencialsException("Senha");
         }
 
