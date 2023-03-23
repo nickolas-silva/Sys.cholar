@@ -11,6 +11,10 @@ public class UserDTO {
     private String role;
     private Long id;
 
+    public UserDTO() {
+        this.role = "empty";
+    }
+
     public Boolean isDiretor() {
         return this.role.equals("diretor");
     }

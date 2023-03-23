@@ -5,7 +5,12 @@ import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,8 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
+import br.edu.ufersa.sys_scholar.api.exception.EntityNotExistsException;
+import br.edu.ufersa.sys_scholar.api.exception.InvalidCredencialsException;
+import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
 import br.edu.ufersa.sys_scholar.domain.service.AlunoService;
 import lombok.AllArgsConstructor;
+import net.bytebuddy.implementation.bytecode.constant.NullConstant;
 
 @RestController
 @RequestMapping("/aluno")
@@ -23,6 +32,7 @@ import lombok.AllArgsConstructor;
 public class AlunoController {
 
     private AlunoService alunoService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @RequestMapping(value = { "/{id}", "" }, method = RequestMethod.GET)
     public ResponseEntity<AlunoDTO> getAluno(@PathVariable Optional<Long> id) {
@@ -37,15 +47,23 @@ public class AlunoController {
     }
 
     @RequestMapping(value = { "/{id}", "" }, method = RequestMethod.DELETE)
-    public ResponseEntity<HttpStatus> deleteAluno(@PathVariable Optional<Long> id) {
-        UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public ResponseEntity<HttpStatus> deleteAluno(@PathVariable Optional<Long> id,
+            @RequestBody Optional<UserDTO> validateUserDTO) {
+        final UserDTO contextUser = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (userDTO.isDiretor()) {
+        if (contextUser.isDiretor()) {
             alunoService.deleteAluno(id.get());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        alunoService.deleteAluno(userDTO.getId());
+        final AlunoDTO currentAluno = alunoService.getAluno(contextUser.getId());
+
+        if (!bCryptPasswordEncoder.matches(validateUserDTO.get().getSenha(),
+                currentAluno.getSenha())) {
+            throw new InvalidCredencialsException("Senha");
+        }
+
+        alunoService.deleteAluno(contextUser.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
