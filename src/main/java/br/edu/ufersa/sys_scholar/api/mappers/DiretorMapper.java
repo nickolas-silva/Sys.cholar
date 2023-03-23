@@ -19,12 +19,12 @@ public interface DiretorMapper {
 
     DiretorMapper INSTANCE = Mappers.getMapper(DiretorMapper.class);
 
-    @Mapping(source = "usuario", target = "usuario", qualifiedByName = "usuarioToString")
-    @Mapping(source = "codigo", target = "codigo", qualifiedByName = "codigoToLong")
+    @Mapping(source = "usuario.value", target = "usuario")
+    @Mapping(source = "codigo.id", target = "codigo")
     DiretorDTO diretorToDiretorDTO(Diretor diretor);
 
-    @Mapping(source = "usuario", target = "usuario", qualifiedByName = "stringToUsuario")
-    @Mapping(source = "codigo", target = "codigo", qualifiedByName = "longToCodigo")
+    @Mapping(source = "usuario", target = "usuario.value")
+    @Mapping(source = "codigo", target = "codigo.id")
     Diretor diretorDTOToDiretor(DiretorDTO diretorDTO);
 
     List<DiretorDTO> diretoresToDiretorDTOs(List<Diretor> diretores);
@@ -32,32 +32,8 @@ public interface DiretorMapper {
     List<Diretor> diretorDTOsToDiretores(List<DiretorDTO> diretores);
 
     @Mapping(source = "usuario", target = "usuario.value")
-    @Mapping(source = "codigo", target = "codigo", qualifiedByName = "longToCodigo")
+    @Mapping(source = "codigo", target = "codigo.id")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateDiretorFromDiretorDTO(DiretorDTO diretorDTO, @MappingTarget Diretor diretor);
-
-    @Named("codigoToLong")
-    public static Long codigoToLong(Codigo codigo) {
-        return codigo.getId();
-    }
-
-    @Named("longToCodigo")
-    public static Codigo LongToCodigo(Long codigo) {
-        Codigo newCodigo = new Codigo();
-        newCodigo.setId(codigo);
-        return newCodigo;
-    }
-
-    @Named("usuarioToString")
-    public static String codigoToLong(Usuario usuario) {
-        return usuario.getValue();
-    }
-
-    @Named("stringToUsuario")
-    public static Usuario codigoToLong(String usuario) {
-        Usuario user = new Usuario();
-        user.setValue(usuario);
-        return user;
-    }
 
 }

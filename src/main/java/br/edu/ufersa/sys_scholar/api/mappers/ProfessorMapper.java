@@ -23,25 +23,25 @@ import br.edu.ufersa.sys_scholar.domain.entity.Usuario;
 public interface ProfessorMapper {
   ProfessorMapper INSTANCE = Mappers.getMapper(ProfessorMapper.class);
 
-  @Mapping(source = "usuario", target = "usuario", qualifiedByName = "usuarioToString")
-  @Mapping(source = "codigo", target = "codigo", qualifiedByName = "codigoToLong")
+  @Mapping(source = "usuario.value", target = "usuario")
+  @Mapping(source = "codigo.id", target = "codigo")
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
   @Mapping(source = "disciplinas", target = "disciplinas", qualifiedByName = "disciplinasToDisciplinaProfessorDTOs")
   ProfessorDTO professorToProfessorDTO(Professor professor);
 
-  @Mapping(source = "usuario", target = "usuario", qualifiedByName = "stringToUsuario")
-  @Mapping(source = "codigo", target = "codigo", qualifiedByName = "longToCodigo")
+  @Mapping(source = "usuario", target = "usuario.value")
+  @Mapping(source = "codigo", target = "codigo.id")
   @Mapping(source = "disciplinas", target = "disciplinas", qualifiedByName = "disciplinaProfessorDTOsToDisciplinas")
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoDTOToEndereco")
   Professor professorDTOToProfessor(ProfessorDTO professorDTO);
 
-  @Mapping(source = "usuario", target = "usuario", qualifiedByName = "usuarioToString")
-  @Mapping(source = "codigo", target = "codigo", qualifiedByName = "codigoToLong")
+  @Mapping(source = "usuario.value", target = "usuario")
+  @Mapping(source = "codigo.id", target = "codigo")
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
   ProfessorDisciplinaDTO professorToProfessorDisciplinaDTO(Professor professor);
 
-  @Mapping(source = "usuario", target = "usuario", qualifiedByName = "stringToUsuario")
-  @Mapping(source = "codigo", target = "codigo", qualifiedByName = "longToCodigo")
+  @Mapping(source = "usuario", target = "usuario.value")
+  @Mapping(source = "codigo", target = "codigo.id")
   @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoDTOToEndereco")
   Professor professorDisciplinaDTOToProfessor(ProfessorDisciplinaDTO professorDisciplinaDTO);
 
@@ -72,34 +72,10 @@ public interface ProfessorMapper {
     return DisciplinaMapper.INSTANCE.disciplinaProfessorDTOsToDisciplinas(disciplinaProfessorDTOs);
   }
 
-  @Named("usuarioToString")
-  public static String codigoToLong(Usuario usuario) {
-    return usuario.getValue();
-  }
-
-  @Named("stringToUsuario")
-  public static Usuario codigoToLong(String usuario) {
-    Usuario user = new Usuario();
-    user.setValue(usuario);
-    return user;
-  }
-
-  @Named("codigoToLong")
-  public static Long codigoToLong(Codigo codigo) {
-    return codigo.getId();
-  }
-
-  @Named("longToCodigo")
-  public static Codigo LongToCodigo(Long codigo) {
-    Codigo newCodigo = new Codigo();
-    newCodigo.setId(codigo);
-    return newCodigo;
-  }
-
   // @Mapping(source = "usuario", target = "usuario", qualifiedByName =
   // "stringToUsuario")
   @Mapping(source = "usuario", target = "usuario.value")
-  @Mapping(source = "codigo", target = "codigo", qualifiedByName = "longToCodigo")
+  @Mapping(source = "codigo", target = "codigo.id")
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   void updateProfessorFromProfessorDTO(ProfessorDTO professorDTO, @MappingTarget Professor professor);
 

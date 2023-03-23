@@ -18,29 +18,17 @@ import br.edu.ufersa.sys_scholar.domain.entity.Nota;
 public interface NotaMapper {
     NotaMapper INSTANCE = Mappers.getMapper(NotaMapper.class);
 
-    @Mapping(source = "aluno.codigo", target = "aluno.codigo", qualifiedByName = "codigoToLong")
+    @Mapping(source = "aluno.codigo.id", target = "aluno.codigo")
     List<NotaDisciplinaDTO> NotasToNotaDisciplinaDTOs(List<Nota> notas);
 
-    @Mapping(source = "aluno.codigo", target = "aluno.codigo", qualifiedByName = "longToCodigo")
+    @Mapping(source = "aluno.codigo", target = "aluno.codigo.id")
     List<Nota> NotaDisciplinaDTOsToNotas(List<NotaDisciplinaDTO> notaDTOs);
 
-    @Mapping(source = "aluno.codigo", target = "aluno.codigo", qualifiedByName = "longToCodigo")
+    @Mapping(source = "aluno.codigo", target = "aluno.codigo.id")
     Nota NotaDisciplinaDTOToNota(NotaDisciplinaDTO notaDisciplinaDTO);
 
-    @Mapping(source = "aluno.codigo", target = "aluno.codigo", qualifiedByName = "codigoToLong")
+    @Mapping(source = "aluno.codigo.id", target = "aluno.codigo")
     NotaDisciplinaDTO NotaToNotaDisciplinaDTO(Nota nota);
-
-    @Named("codigoToLong")
-    public static Long codigoToLong(Codigo codigo) {
-        return codigo.getId();
-    }
-
-    @Named("longToCodigo")
-    public static Codigo LongToCodigo(Long codigo) {
-        Codigo newCodigo = new Codigo();
-        newCodigo.setId(codigo);
-        return newCodigo;
-    }
 
     // @Mapping(target = "aluno", ignore = true)
     // @Mapping(target = "disciplina", ignore = true)

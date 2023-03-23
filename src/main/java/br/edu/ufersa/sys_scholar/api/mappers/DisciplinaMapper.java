@@ -69,24 +69,10 @@ public interface DisciplinaMapper {
         return NotaMapper.INSTANCE.NotaDisciplinaDTOsToNotas(notasDisciplinaDTOs);
     }
 
-    @Mapping(source = "professor.usuario", target = "professor.usuario", qualifiedByName = "stringToUsuario")
-    @Mapping(source = "professor.codigo", target = "professor.codigo", qualifiedByName = "longToCodigo")
+    @Mapping(source = "professor.usuario", target = "professor.usuario.value")
+    @Mapping(source = "professor.codigo", target = "professor.codigo.id")
     @Mapping(source = "notas", target = "notas", qualifiedByName = "notaDisciplinaDTOsToNotas")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateDisciplinaFromDisciplinaDTO(DisciplinaDTO disciplinaDTO, @MappingTarget Disciplina disciplina);
-
-    @Named("longToCodigo")
-    public static Codigo LongToCodigo(Long codigo) {
-        Codigo newCodigo = new Codigo();
-        newCodigo.setId(codigo);
-        return newCodigo;
-    }
-
-    @Named("stringToUsuario")
-    public static Usuario codigoToLong(String usuario) {
-        Usuario user = new Usuario();
-        user.setValue(usuario);
-        return user;
-    }
 
 }

@@ -22,14 +22,14 @@ import br.edu.ufersa.sys_scholar.domain.entity.Usuario;
 public interface AlunoMapper {
     AlunoMapper INSTANCE = Mappers.getMapper(AlunoMapper.class);
 
-    @Mapping(source = "usuario", target = "usuario", qualifiedByName = "usuarioToString")
-    @Mapping(source = "codigo", target = "codigo", qualifiedByName = "codigoToLong")
+    @Mapping(source = "usuario.value", target = "usuario")
+    @Mapping(source = "codigo.id", target = "codigo")
     @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
     @Mapping(target = "notas", ignore = true)
     AlunoDTO alunoToAlunoDTO(Aluno aluno);
 
-    @Mapping(source = "usuario", target = "usuario", qualifiedByName = "stringToUsuario")
-    @Mapping(source = "codigo", target = "codigo", qualifiedByName = "longToCodigo")
+    @Mapping(source = "usuario", target = "usuario.value")
+    @Mapping(source = "codigo", target = "codigo.id")
     @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoDTOToEndereco")
     @Mapping(target = "notas", ignore = true)
     Aluno alunoDTOToAluno(AlunoDTO aluno);
@@ -43,30 +43,6 @@ public interface AlunoMapper {
     // @Mapping(target = "endereco", ignore = true)
     // Aluno AlunoDtoToAluno(AlunoDTO aluno);
 
-    @Named("usuarioToString")
-    public static String codigoToLong(Usuario usuario) {
-        return usuario.getValue();
-    }
-
-    @Named("stringToUsuario")
-    public static Usuario codigoToLong(String usuario) {
-        Usuario user = new Usuario();
-        user.setValue(usuario);
-        return user;
-    }
-
-    @Named("codigoToLong")
-    public static Long codigoToLong(Codigo codigo) {
-        return codigo.getId();
-    }
-
-    @Named("longToCodigo")
-    public static Codigo LongToCodigo(Long codigo) {
-        Codigo newCodigo = new Codigo();
-        newCodigo.setId(codigo);
-        return newCodigo;
-    }
-
     @Named("enderecoToEnderecoDTO")
     public static EnderecoDTO enderecoToEnderecoDTO(Endereco endereco) {
         return EnderecoMapper.INSTANCE.EnderecoToEnderecoDTO(endereco);
@@ -79,7 +55,7 @@ public interface AlunoMapper {
 
     @Mapping(source = "usuario", target = "usuario.value")
     @Mapping(target = "notas", ignore = true)
-    @Mapping(source = "codigo", target = "codigo", qualifiedByName = "longToCodigo")
+    @Mapping(source = "codigo", target = "codigo.id")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateAlunoFromAlunoDTO(AlunoDTO alunoDTO, @MappingTarget Aluno aluno);
 
