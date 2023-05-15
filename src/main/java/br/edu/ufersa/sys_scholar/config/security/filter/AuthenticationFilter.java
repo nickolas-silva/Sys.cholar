@@ -9,10 +9,12 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
 import br.edu.ufersa.sys_scholar.config.security.SecurityConstants;
 import br.edu.ufersa.sys_scholar.config.security.manager.CustomAuthenticationManager;
-
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -61,7 +62,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .withPayload(payload)
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
-        response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);
+        // response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER
+        // + token);
+
+        String responseBody = SecurityConstants.BEARER + token;
+        response.setContentType("text/plain");
+        response.getWriter().write(responseBody);
     }
 
 }
