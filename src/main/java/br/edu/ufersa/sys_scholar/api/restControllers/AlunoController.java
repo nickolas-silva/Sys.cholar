@@ -3,33 +3,30 @@ package br.edu.ufersa.sys_scholar.api.restControllers;
 import java.util.Optional;
 
 import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
-import br.edu.ufersa.sys_scholar.api.exception.EntityNotExistsException;
 import br.edu.ufersa.sys_scholar.api.exception.InvalidCredencialsException;
 import br.edu.ufersa.sys_scholar.api.exception.InvalidIdentifierException;
-import br.edu.ufersa.sys_scholar.domain.repository.AlunoRepository;
 import br.edu.ufersa.sys_scholar.domain.service.AlunoService;
 import lombok.AllArgsConstructor;
-import net.bytebuddy.implementation.bytecode.constant.NullConstant;
 
 @RestController
 @RequestMapping("/aluno")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class AlunoController {
 
     private AlunoService alunoService;
