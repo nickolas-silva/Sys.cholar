@@ -11,12 +11,11 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
-import br.edu.ufersa.sys_scholar.api.dto.CodigoDTO;
 import br.edu.ufersa.sys_scholar.api.dto.EnderecoDTO;
+import br.edu.ufersa.sys_scholar.api.dto.NotaAlunoDTO;
 import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
-import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
-import br.edu.ufersa.sys_scholar.domain.entity.Usuario;
+import br.edu.ufersa.sys_scholar.domain.entity.Nota;
 
 @Mapper
 public interface AlunoMapper {
@@ -25,7 +24,7 @@ public interface AlunoMapper {
     @Mapping(source = "usuario.value", target = "usuario")
     @Mapping(source = "codigo.id", target = "codigo")
     @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
-    @Mapping(target = "notas", ignore = true)
+    @Mapping(source = "notas", target = "notas", qualifiedByName = "notasToNotaAlunoDTOs")
     AlunoDTO alunoToAlunoDTO(Aluno aluno);
 
     @Mapping(source = "usuario", target = "usuario.value")
@@ -36,12 +35,22 @@ public interface AlunoMapper {
 
     @Mapping(source = "codigo", target = "codigo", qualifiedByName = "codigoToLong")
     @Mapping(source = "endereco", target = "endereco", qualifiedByName = "enderecoToEnderecoDTO")
-    @Mapping(target = "notas", ignore = true)
+    @Mapping(source = "notas", target = "notas", qualifiedByName = "notasToNotaAlunoDTOs")
     List<AlunoDTO> alunosToAlunoDTOs(List<Aluno> alunos);
 
     // @Mapping(target = "notas", ignore = true)
     // @Mapping(target = "endereco", ignore = true)
     // Aluno AlunoDtoToAluno(AlunoDTO aluno);
+
+    @Named("notasToNotaAlunoDTOs")
+    public static List<NotaAlunoDTO> notasToNotaAlunoDTOs(List<Nota> notas) {
+        return NotaMapper.INSTANCE.NotasToNotaAlunoDTOs(notas);
+    }
+
+    @Named("notaToNotaAlunoDTO")
+    public static NotaAlunoDTO notaToNotaAlunoDTO(Nota nota) {
+        return NotaMapper.INSTANCE.NotaToNotaAlunoDTO(nota);
+    }
 
     @Named("enderecoToEnderecoDTO")
     public static EnderecoDTO enderecoToEnderecoDTO(Endereco endereco) {
