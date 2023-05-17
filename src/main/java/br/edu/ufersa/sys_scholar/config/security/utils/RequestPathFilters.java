@@ -1,19 +1,34 @@
 package br.edu.ufersa.sys_scholar.config.security.utils;
 
+import javax.servlet.http.HttpServletRequest;
+
 import br.edu.ufersa.sys_scholar.api.dto.UserDTO;
 
 public class RequestPathFilters {
 
     String path;
     UserDTO userDTO;
+    String method;
 
-    public RequestPathFilters(String path, UserDTO userDTO) {
-        this.path = path;
+    /**
+     * @param request
+     * @param userDTO
+     */
+    public RequestPathFilters(HttpServletRequest request, UserDTO userDTO) {
+        this.path = request.getRequestURI();
         this.userDTO = userDTO;
+        this.method = request.getMethod();
+    }
+
+    private Boolean isGET() {
+        return this.method.equals("GET");
     }
 
     private Boolean isPathProfessor() {
-        return this.path.startsWith("/professor");
+        return this.path.startsWith("/professor") ||
+                (this.isGET() && this.path.startsWith("/disciplina")) ||
+                (this.path.startsWith("/disciplina/nota"));
+
     }
 
     private Boolean isPathAluno() {

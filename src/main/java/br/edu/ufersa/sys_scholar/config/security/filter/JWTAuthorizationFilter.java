@@ -48,7 +48,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
         ///////////////////////
 
-        RequestPathFilters pathFilter = new RequestPathFilters(request.getRequestURI(), userDTO);
+        RequestPathFilters pathFilter = new RequestPathFilters(request, userDTO);
 
         // final String currentPath = request.getRequestURI();
 
