@@ -3,9 +3,9 @@ package br.edu.ufersa.sys_scholar.domain.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.catalina.startup.WebAnnotationSet;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.exception.EntityNotExistsException;
 import br.edu.ufersa.sys_scholar.api.exception.NullFieldsException;
@@ -55,6 +55,16 @@ public class AlunoService {
         }
 
         Optional<Aluno> aluno = alunoRepository.findByUsuarioId(usuario.get().getId());
+
+        return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno.get());
+    }
+
+    public AlunoDTO getAlunoByCodigo(Long id) {
+        Optional<Aluno> aluno = alunoRepository.findByCodigoId(id);
+
+        if (!aluno.isPresent()) {
+            throw new EntityNotExistsException("Aluno");
+        }
 
         return AlunoMapper.INSTANCE.alunoToAlunoDTO(aluno.get());
     }

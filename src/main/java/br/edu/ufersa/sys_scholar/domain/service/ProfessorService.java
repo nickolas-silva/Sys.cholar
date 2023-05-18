@@ -5,11 +5,15 @@ import java.util.Optional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import br.edu.ufersa.sys_scholar.api.dto.AlunoDTO;
 import br.edu.ufersa.sys_scholar.api.dto.ProfessorDTO;
 import br.edu.ufersa.sys_scholar.api.exception.EntityNotExistsException;
 import br.edu.ufersa.sys_scholar.api.exception.NullFieldsException;
 import br.edu.ufersa.sys_scholar.api.exception.UserRegistredException;
+import br.edu.ufersa.sys_scholar.api.mappers.AlunoMapper;
 import br.edu.ufersa.sys_scholar.api.mappers.ProfessorMapper;
+import br.edu.ufersa.sys_scholar.domain.entity.Aluno;
 import br.edu.ufersa.sys_scholar.domain.entity.Codigo;
 import br.edu.ufersa.sys_scholar.domain.entity.Endereco;
 import br.edu.ufersa.sys_scholar.domain.entity.Professor;
@@ -33,6 +37,16 @@ public class ProfessorService {
 
     return professorDTOs;
 
+  }
+
+  public ProfessorDTO getProfessorByCodigo(Long id) {
+    Optional<Professor> professor = professorRepository.findByCodigoId(id);
+
+    if (!professor.isPresent()) {
+      throw new EntityNotExistsException("Professor");
+    }
+
+    return ProfessorMapper.INSTANCE.professorToProfessorDTO(professor.get());
   }
 
   public ProfessorDTO createProfessor() {

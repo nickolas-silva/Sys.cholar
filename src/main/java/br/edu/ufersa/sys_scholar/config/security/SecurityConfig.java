@@ -33,6 +33,8 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, SecurityConstants.ALUNO_REGISTER_PATH).permitAll()
                 .antMatchers(HttpMethod.POST, SecurityConstants.PROFESSOR_REGISTER_PATH).permitAll()
                 .antMatchers(HttpMethod.POST, SecurityConstants.DIRETOR_REGISTER_PATH).permitAll()
+                .antMatchers(HttpMethod.GET, "/diretor/aluno/codigo/{id}").permitAll()
+                .antMatchers(HttpMethod.GET, "/diretor/professor/codigo/{id}").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 // .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)

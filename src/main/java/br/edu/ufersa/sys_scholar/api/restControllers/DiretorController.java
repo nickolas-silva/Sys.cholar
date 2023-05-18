@@ -33,6 +33,20 @@ public class DiretorController {
     ProfessorService professorService;
     AlunoService alunoService;
 
+    @GetMapping("/aluno/codigo/{id}")
+    public ResponseEntity<AlunoDTO> getAlunoByCodigo(@PathVariable Long id) {
+
+        return new ResponseEntity<>(alunoService.getAlunoByCodigo(id), HttpStatus.OK);
+
+    }
+
+    @GetMapping("/professor/codigo/{id}")
+    public ResponseEntity<ProfessorDTO> getProfessorByCodigo(@PathVariable Long id) {
+
+        return new ResponseEntity<>(professorService.getProfessorByCodigo(id), HttpStatus.OK);
+
+    }
+
     @GetMapping
     public ResponseEntity<List<DiretorDTO>> getDiretores() {
         return new ResponseEntity<>(diretorService.getDiretores(), HttpStatus.OK);
